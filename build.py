@@ -168,15 +168,15 @@ def publishDocumentation():
     SPHINX_LOCAL_DOC_SOURCE = os.path.join(targetDir, 'doc', 'sphinx', 'source')
     
     SPHINX_INDEX = os.path.join(
-        DOCUMENTATON_GROUP.replace(' ', '_'), APPLICATION_NAME,
-        '%s.html' % APPLICATION_NAME)
+        DOCUMENTATON_GROUP.replace(' ', '_'), applicationName,
+        '%s.html' % applicationName)
     
     # copy to tool documentation
     # create main link file
     SPHINX_GLOBAL_DOC_SOURCE = os.path.join(DOCUMENTATON_PATH, 'source',
-        DOCUMENTATON_GROUP.replace(' ', '_'), APPLICATION_NAME)
+        DOCUMENTATON_GROUP.replace(' ', '_'), applicationName)
     docFileName = os.path.join(SPHINX_GLOBAL_DOC_SOURCE,
-        '%s.txt' % APPLICATION_NAME)
+        '%s.txt' % applicationName)
         
     if os.path.exists(SPHINX_GLOBAL_DOC_SOURCE):
         shutil.rmtree(SPHINX_GLOBAL_DOC_SOURCE)
@@ -186,8 +186,8 @@ def publishDocumentation():
     
      
     fo = open(docFileName, 'wt')
-    fo.write('.. _%s: ./%s\n\n' % (APPLICATION_NAME, SPHINX_INDEX))
-    fo.write('`%s`_ - %s\n\n' % (APPLICATION_NAME, DOCUMENTATON_DESCRIPTION))
+    fo.write('.. _%s: ./%s\n\n' % (applicationName, SPHINX_INDEX))
+    fo.write('`%s`_ - %s\n\n' % (applicationName, DOCUMENTATON_DESCRIPTION))
     fo.close()
 
     # update index file
@@ -200,7 +200,7 @@ def publishDocumentation():
             newIndexLines.append(line)
     fi.close()
     
-    fo = open(os.path.join(SPHINX_GLOBAL_DOC_SOURCE, '%s.rst' % APPLICATION_NAME), 'wt')
+    fo = open(os.path.join(SPHINX_GLOBAL_DOC_SOURCE, '%s.rst' % applicationName), 'wt')
     for line in newIndexLines:
         fo.write(line)
     fo.close()
@@ -226,7 +226,8 @@ parser.add_argument('-i', action='store_true',  dest='install',
 
 args = parser.parse_args()
 
-applicationPath = os.path.join(PRODUCTIVE_VERSION_HOME, APPLICATION_NAME)
+applicationName = os.path.basename(PATH_SELF)
+applicationPath = os.path.join(PRODUCTIVE_VERSION_HOME, applicationName)
 targetDir = os.path.join(applicationPath, args.revision)
 
 createRevisionContents()
@@ -236,7 +237,7 @@ createDocumentation()
 cleanUp()
 
 if args.install:
-#     install()
+    install()
     publishDocumentation()
     
 print 'Done'

@@ -1,10 +1,16 @@
-ansaChecksPlistUpdater documentation
-====================================
 
 .. toctree::
    :maxdepth: 2
 
 .. automodule:: main
+
+List of IDIADA checks
+---------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   checksDocString.rst
 
 Revision history
 ----------------

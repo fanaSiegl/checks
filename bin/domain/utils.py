@@ -1,13 +1,17 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 '''Python script for '''
 
 import os
-import sys
-import ConfigParser
+import sys    
 import numpy as np
+import subprocess
 
+try:
+    import ConfigParser
+except ImportError as e:
+    import configparser as ConfigParser
 
 #==============================================================================
 
@@ -19,7 +23,6 @@ PATH_RES = os.path.normpath(os.path.join(PATH_BIN,'..', 'res'))
 PATH_ICONS = os.path.join(PATH_RES, 'icons')
 
 VERSION_FILE = 'version.ini'
-USER_CONFIG_SETTINGS_FILE = 'user_settings.xml'
 
 #==============================================================================
 
@@ -37,6 +40,16 @@ def getVersionInfo():
     lastModified = config.get(SECTION_VERSION, 'MODIFIED')
  
     return revision, modifiedBy, lastModified
+
+#==============================================================================
+
+def runSubprocess(command, cwd=None):
+    
+    process = subprocess.Popen(
+        command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+        cwd=cwd)
+    
+    return process.communicate()
 
 #==============================================================================
    
