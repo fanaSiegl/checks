@@ -1,54 +1,6 @@
+.. toctree::
+    :maxdepth: 1
 
-Check connector
-===============
-
-Checks foo.
-
-* searches all foo
-* checks somethings
-
-Fix function
-------------
-
-* w4fw4
-* ew4f r4f
-
-
-
-Check BEAM section Elements
-===========================
-
-Checks foo.
-
-* searches all foo
-* checks somethings
-
-Fix function
-------------
-
-* w4fw4
-* ew4f r4f
-
-
-
-Check ABAQUS : CONTACTs
-=======================
-
-Checks foo.
-
-* searches all foo
-* checks something
-
-Parameters
-------------
-
-* param 1 - efs
-* param 2 - segfes
-
-Fix function
-------------
-
-* w4fw4
-* ew4f r4f
-
-
+    check_el_ex_fix_connector.rst
+    check_el_ex_fix_beam_section_ABA.rst
+    check_el_ex_fix_contact_ABA.rst
