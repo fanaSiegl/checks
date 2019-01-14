@@ -1,5 +1,23 @@
 # PYTHON script
 
+'''
+Check connector
+===============
+
+Checks foo.
+
+* searches all foo
+* checks somethings
+
+Fix function
+------------
+
+* w4fw4
+* ew4f r4f
+
+
+'''
+
 import os
 from ansa import base
 from ansa import constants

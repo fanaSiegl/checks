@@ -1,5 +1,29 @@
 # PYTHON script
 
+'''
+Check ABAQUS : CONTACTs
+=======================
+
+Checks foo.
+
+* searches all foo
+* checks something
+
+Parameters
+------------
+
+* param 1 - efs
+* param 2 - segfes
+
+Fix function
+------------
+
+* w4fw4
+* ew4f r4f
+
+
+'''
+
 import os
 import ansa
 from ansa import base, constants, mesh, session
@@ -20,7 +44,7 @@ FixCheckQualityElements = check_el_ex_fix_tied_ABA.FixCheckQualityElements
 		
 # ==============================================================================
 
-checkOptions = { 'name': 'Check ABAQUS : CONTACTs ', 
+checkOptions = { 'name': 'Check ABAQUS : CONTACTs', 
         'exec_action': ('ExecCheckQualityElements', os.path.realpath(__file__)), 
         'fix_action':  ('FixCheckQualityElements',  os.path.realpath(__file__)), 
         'deck': constants.ABAQUS, 
