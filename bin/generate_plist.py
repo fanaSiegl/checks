@@ -23,17 +23,21 @@ PATH_CHECKS = PATH_PLIST#os.path.join(PATH_RES, 'checks')
 
 # ==============================================================================
 
-def loadChecks(path=PATH_CHECKS):
+def loadChecks():
 
 	checkDescriptions = list()
 	checkDocString = ''
-	for modulePath in glob.glob(os.path.join(path, CHECK_PATTERN)):
+	for modulePath in glob.glob(os.path.join(PATH_CHECKS, CHECK_PATTERN)):
 		
 		moduleName = os.path.splitext(os.path.basename(modulePath))[0]
 		ansa.ImportCode(modulePath)
 		
 		currentModule = globals()[moduleName]
-		print('Loading: %s.' % currentModule.checkOptions['name'])	
+		try:
+			print('Loading: %s.' % currentModule.checkOptions['name'])
+		except AttributeError as e:
+			print('No checkDescription object found in: %s' % modulePath)
+			continue	
 		
 		if currentModule.__doc__ is not None:
 			checkDocString += currentModule.__doc__

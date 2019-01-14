@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit 76cd4f1 (HEAD, tag: V.0.0.3, master)
+       * commit 6f76b9e (HEAD, tag: V.0.0.3, master)
+   | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
+   | Date:   Mon Jan 14 18:39:07 2019 +0100
+   | 
+   |     New version
+   |  
+   * commit 76cd4f1
    | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
    | Date:   Mon Jan 14 18:25:40 2019 +0100
    | 
