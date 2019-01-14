@@ -26,7 +26,7 @@ PATH_CHECKS = PATH_PLIST#os.path.join(PATH_RES, 'checks')
 def loadChecks():
 
 	checkDescriptions = list()
-	checkDocString = ''
+	documentedModules = list()
 	for modulePath in glob.glob(os.path.join(PATH_CHECKS, CHECK_PATTERN)):
 		
 		moduleName = os.path.splitext(os.path.basename(modulePath))[0]
@@ -40,7 +40,10 @@ def loadChecks():
 			continue	
 		
 		if currentModule.__doc__ is not None:
-			checkDocString += currentModule.__doc__
+			checkDocString = currentModule.__doc__
+			documentedModules.append(moduleName)
+			
+			saveModuleDoc(moduleName, checkDocString)
 		
 		checkDescription = currentModule.checkDescription
 		checkDescriptions.append(checkDescription)
@@ -49,14 +52,32 @@ def loadChecks():
 		PATH_PLIST, 'ANSA_UserDefined.plist'))
 	print('%s checks loaded.' % is_saved)
 	
-	saveDoc(checkDocString)
+	saveGeneralDoc(documentedModules)
+	
 
 # ==============================================================================
 
-def saveDoc(docString):
+def saveGeneralDoc(documentedModules):
+		
+	content = '''.. toctree::
+    :maxdepth: 1
+
+'''
 	
+	for documentedModule in documentedModules:
+		content += '    %s.rst\n' % documentedModule
+
 	fo = open(
 		os.path.join(PATH_DOC, 'sphinx', 'source', CHECKS_DOC_RST), 'wt')
+	fo.write(content)
+	fo.close()
+	
+# ==============================================================================
+
+def saveModuleDoc(moduleName, docString):
+	
+	fo = open(
+		os.path.join(PATH_DOC, 'sphinx', 'source', '%s.rst' % moduleName), 'wt')
 	fo.write(docString)
 	fo.close()
 
