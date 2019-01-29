@@ -1,5 +1,12 @@
 # PYTHON script
-
+'''
+Check TIEs for Skoda
+====================
+Description:
+Check the TIE for entities names consistency
+* same name in hierarchy  
+  - tied name - properties name - groups names
+'''
 import os
 from ansa import base
 from ansa import constants

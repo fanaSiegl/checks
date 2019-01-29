@@ -1,5 +1,23 @@
 # PYTHON script
 
+'''
+PAMCRASH check parts for Nissan
+======================================
+Description:
+Check the parts for following rules:
+* Number of segments = 4
+* Delimiter for part name = __
+* Number of digits for thickness = 1
+* Max. number of chars = 80
+* Contact thickness check = NO (YES for Skoda)
+* Thickness by part name check = YES 
+* Segment of thickness name = 2 
+* Solver - PAMCRASH
+
+Fix:
+* function of fix is available for some warnings
+'''
+
 import os
 import ansa
 from ansa import base, constants, mesh, session

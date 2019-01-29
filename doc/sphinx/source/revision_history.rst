@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit cd370e3 (HEAD, master)
+       * commit 57c7eba (HEAD, tag: V.0.0.3, master)
+   | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
+   | Date:   Mon Jan 14 20:05:18 2019 +0100
+   | 
+   |     New auto-loading checks added.
+   |  
+   * commit cd370e3
    | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
    | Date:   Mon Jan 14 19:08:37 2019 +0100
    | 

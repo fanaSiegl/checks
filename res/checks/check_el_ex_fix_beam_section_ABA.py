@@ -1,21 +1,15 @@
 # PYTHON script
 
 '''
-Check BEAM section Elements
-===========================
-
-Checks foo.
-
-* searches all foo
-* checks somethings
+ABAQUS check BEAM section Elements
+==================================
+Description:
+* the script check if the hybrid elements are used for bemas
 
 Fix function
 ------------
-
-* w4fw4
-* ew4f r4f
-
-
+* add definition type element for BEAM
+* parameter: optional2' = 'H'
 '''
 
 import os

@@ -3,24 +3,10 @@
 '''
 Check ABAQUS : CONTACTs
 =======================
-
-Checks foo.
-
-* searches all foo
-* checks something
-
-Parameters
-------------
-
-* param 1 - efs
-* param 2 - segfes
-
-Fix function
-------------
-
-* w4fw4
-* ew4f r4f
-
+Description:
+The script check the ABAQUS contact pairs
+* automatic depenetration ADJUST = 0
+* with exception small sliding and clearence = value  
 
 '''
 
