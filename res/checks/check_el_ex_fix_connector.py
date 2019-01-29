@@ -36,16 +36,16 @@ class entity_cls (base.Entity):
 		connectorSections = base.CollectEntities(constants.ABAQUS, self, "CONNECTOR_SECTION",prop_from_entities = True)		
 		dict_cs = connectorSections[0].get_entity_values(constants.ABAQUS, fieldConnectorSection)		
 		ret4x3 = calc.GetCoordTransformMatrix4x3(constants.ABAQUS, dict_cs['ORIENT_1'], 0, 0, 0)
-        pos_A = calc.GlobalToLocal(dict_cs['ORIENT_1']._id, pos_A, "point")
+		pos_A = calc.GlobalToLocal(dict_cs['ORIENT_1']._id, pos_A, "point")
 		pos_B = calc.GlobalToLocal(dict_cs['ORIENT_1']._id, pos_B, "point")
 		
 		dist_x , dist_y, dist_z =pos_B[0] - pos_A[0],pos_B[1] - pos_A[1],pos_B[2] - pos_A[2]
-        if  dist_x > 1.e-5 or dist_x < -1.e-5:
-            status_lenght = 'Initial lenght for local coord x of connector for should be 0.0, the current lenght is: ' + str(dist_x)
-        if  dist_y > 1.e-5 or dist_y < -1.e-5:
-            status_lenght = status_lenght + ' .Initial lenght for local coord y of connector for should be 0.0, the current lenght is: ' + str(dist_y)	
-        if  dist_z > 100001.e-5 or dist_z < 99999.e-5:
-            status_lenght = status_lenght + ' .Initial lenght for local coord z of connector for should be 1.0, the current lenght is: ' + str(dist_z)
+		if  dist_x > 1.e-5 or dist_x < -1.e-5:
+			status_lenght = 'Initial lenght for local coord x of connector for should be 0.0, the current lenght is: ' + str(dist_x)
+		if  dist_y > 1.e-5 or dist_y < -1.e-5:
+			status_lenght = status_lenght + ' .Initial lenght for local coord y of connector for should be 0.0, the current lenght is: ' + str(dist_y)	
+		if  dist_z > 100001.e-5 or dist_z < 99999.e-5:
+			status_lenght = status_lenght + ' .Initial lenght for local coord z of connector for should be 1.0, the current lenght is: ' + str(dist_z)
             
 		connectorBehavior = base.CollectEntities(constants.ABAQUS, self, "CONNECTOR BEHAVIOR",mat_from_entities = True)
 		field_stop = ['*STOP', 'STP>data']
