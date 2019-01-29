@@ -189,12 +189,13 @@ def ExecCheckQualityElementsSkoda(entities, params):
                     en [text] = []
 
                 flag_error = False
+                print(compare [0],compare [1], compare [2],compare [3] )
                 if compare [3] == '>':
                     
                     if compare [0] < compare [1]:
                         flag_error = True
                         diff = str(compare [1] - compare [0])
-                elif compare [0] > compare [1]: 
+                elif float(compare [0]) > float(compare [1]): 
                         flag_error = True
                         diff = str(compare [0] - compare [1])  
                         

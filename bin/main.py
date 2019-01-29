@@ -2,28 +2,6 @@
 # -*- coding: utf-8 -*-
 
 '''
-
-Project name
-============
-
-Project function description.
-
-Usage
------
-
-project_name [input parameter]
-
-Description
------------
-
-* requires something
-* does something
-* creates something as an output
-
-
-'''
-
-'''
 IDIADA checks
 =============
 

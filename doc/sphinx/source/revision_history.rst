@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit 560ea1f (HEAD, tag: V.0.0.4, master)
+       * commit 8973146 (HEAD, tag: V.0.0.4, master)
+   | Author: stekly <jan.stekly@idiada.cz>
+   | Date:   Tue Jan 29 13:56:56 2019 +0100
+   | 
+   |     Connector check bug fixed.
+   |  
+   * commit 560ea1f
    | Author: stekly <jan.stekly@idiada.cz>
    | Date:   Tue Jan 29 13:35:03 2019 +0100
    | 
