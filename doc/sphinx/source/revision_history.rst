@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit 8973146 (HEAD, tag: V.0.0.4, master)
+       * commit ec76ed6 (HEAD, tag: V.0.0.5, master)
+   | Author: stekly <jan.stekly@idiada.cz>
+   | Date:   Tue Jan 29 18:18:05 2019 +0100
+   | 
+   |     Check of solid was fixed for SKODA
+   |  
+   * commit 8973146 (tag: V.0.0.4)
    | Author: stekly <jan.stekly@idiada.cz>
    | Date:   Tue Jan 29 13:56:56 2019 +0100
    | 
