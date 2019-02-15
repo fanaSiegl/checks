@@ -64,7 +64,7 @@ def ExecCheckQualityElementsSkoda(entities, params):
         'ASPECT,SOLID,TETRA,HEXA,PENTA':{'criteria name F11': 'aspect ratio', 'comparison':'<','type':'TETRA,HEXA,PENTA'},
         'SKEW,SOLID,TETRA,HEXA,PENTA':{'criteria name F11':"skewness",'comparison':'<','type':'TETRA,HEXA,PENTA'},
         'WARP,SOLID,TETRA,HEXA,PENTA':{'criteria name F11':"warping",'comparison':'<','type':'TETRA,HEXA,PENTA'},
-        'CRASH,SOLID,TETRA,HEXA,PENTA':{'criteria name F11':"crash time step",'comparison':'<','type':'TETRA,HEXA,PENTA'},
+        'CRASH,SOLID,TETRA,HEXA,PENTA':{'criteria name F11':"crash time step",'comparison':'>','type':'TETRA,HEXA,PENTA'},
         'MIN-LEN,SOLID,TETRA,HEXA,PENTA':{'criteria name F11':"min length",'comparison':'>','type':'TETRA,HEXA,PENTA'},
         'MINANGLE,SOLID,TETRA':{'criteria name F11':"min angle tetras",'comparison':'>','type':'TETRA'},
         'MAXANGLE,SOLID,TETRA':{'criteria name F11':"max angle tetras",'comparison':'<','type':'TETRA'},
@@ -189,27 +189,28 @@ def ExecCheckQualityElementsSkoda(entities, params):
                     en [text] = []
 
                 flag_error = False
-                print(compare [0],compare [1], compare [2],compare [3] )
-                if compare [3] == '>':
-                    
-                    if compare [0] < compare [1]:
-                        flag_error = True
-                        diff = str(compare [1] - compare [0])
-                elif float(compare [0]) > float(compare [1]): 
-                        flag_error = True
-                        diff = str(compare [0] - compare [1])  
+                #print(ent, compare [0],compare [1], compare [2],compare [3] )
+                if compare [0] != 'error':
+                    if compare [3] == '>':
+
+                        if compare [0] < compare [1]:
+                            flag_error = True
+                            diff = str(compare [1] - compare [0])
+                    elif float(compare [0]) > float(compare [1]): 
+                            flag_error = True
+                            diff = str(compare [0] - compare [1])  
                         
-                if flag_error == True:   
-                    i [text] = i [text] + 1
-                    if i [text] < int(params['Detail list for number of errors']):
-                      
-                        t [text].add_issue(entities = [ent],
-                            status = 'Error',
-                            description = compare [2] + '  '+type,
-                            value = str(compare [0]), limit = str(compare [1]),
-                            diff = diff ) 
-                    else:
-                        en [text] = en [text] + [ent]  
+                    if flag_error == True:   
+                        i [text] = i [text] + 1
+                        if i [text] < int(params['Detail list for number of errors']):
+                          
+                            t [text].add_issue(entities = [ent],
+                                status = 'Error',
+                                description = compare [2] + '  '+type,
+                                value = str(compare [0]), limit = str(compare [1]),
+                                diff = diff ) 
+                        else:
+                            en [text] = en [text] + [ent]  
                                                      
 ################################################################################                   
 #          additional check for lenght - thick * THICKNESS FACTOR

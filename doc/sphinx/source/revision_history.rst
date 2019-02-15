@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit ec76ed6 (HEAD, tag: V.0.0.5, master)
+       * commit 97c68aa (HEAD, tag: V.0.0.6, master)
+   | Author: Lukas Kadlec <lukas.kadlec@idiada.cz>
+   | Date:   Mon Feb 11 14:52:12 2019 +0100
+   | 
+   |     GAP penetration check added.
+   |  
+   * commit ec76ed6 (tag: V.0.0.5)
    | Author: stekly <jan.stekly@idiada.cz>
    | Date:   Tue Jan 29 18:18:05 2019 +0100
    | 

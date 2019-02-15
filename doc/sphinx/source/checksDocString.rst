@@ -1,6 +1,7 @@
 .. toctree::
     :maxdepth: 1
 
+    check_elem_gap.rst
     check_elements_ex_fix.rst
     check_materials_ex_fix_skoda_23.rst
     check_materials_ex_fix.rst
