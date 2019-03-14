@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit 97c68aa (HEAD, tag: V.0.0.6, master)
+       * commit b842d92 (HEAD, tag: V.0.0.7, master)
+   | Author: stekly <jan.stekly@idiada.cz>
+   | Date:   Fri Feb 15 15:16:50 2019 +0100
+   | 
+   |     Was fixed the checking of elements
+   |  
+   * commit 97c68aa (tag: V.0.0.6)
    | Author: Lukas Kadlec <lukas.kadlec@idiada.cz>
    | Date:   Mon Feb 11 14:52:12 2019 +0100
    | 

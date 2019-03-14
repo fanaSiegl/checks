@@ -61,9 +61,7 @@ def ExecCheckMaterials(entities, params):
             return 0
 
     configuration_line, configuration_line_short, loadcase_list = read_configuration_file(file)
-    
-    
-    
+        
     if (params['Type of loadcase'] not in loadcase_list) and len(loadcase_list) > 1:
         print(loadcase_list)
         TopWindow = guitk.BCWindowCreate("Fill the  text from the combo box", guitk.constants.BCOnExitDestroy)
@@ -71,6 +69,8 @@ def ExecCheckMaterials(entities, params):
         guitk.BCComboBoxSetActivatedFunction( ComboBox, ComboActivated, None )
         guitk.BCShow(TopWindow)
         loadcase = loadcase_choose
+    elif params['Type of loadcase'] in loadcase_list:
+        loadcase = params['Type of loadcase']
 
     if len(loadcase_list) == 1:
         loadcase = loadcase_list[0]
@@ -257,3 +257,26 @@ checkDescription.add_str_param('Matching list', '/data/fem/+software/SKODA_INCLU
 checkDescription.add_str_param('Delimiter for part name', '__')    
 
 # ==============================================================================
+
+def test():
+	
+	entities = base.CollectEntities(constants.PAMCRASH, None, "__MATERIALS__")
+	params = {
+		'Delimiter for part name' : '__',
+		'Matching list'	: '/data/fem/users/siegl/eclipse/ansaTools/ansaChecksPlistUpdater/res/test_files/white_list',
+		'Solver'		:	'PAMCRASH',
+		'Type of loadcase' : 'SK3165_+65',
+		'Segment of material name' : '5',
+		'Number of segments': '5'}
+	
+	report = ExecCheckMaterials(entities, params)
+	
+	for i in report:
+		print(i.status, i.description, i.entities)#, i.issues)
+		for issue in i.issues:
+			print('\t' + str(issue.entities))
+	
+# ==============================================================================
+
+#if __name__ == '__main__':
+#	test()
