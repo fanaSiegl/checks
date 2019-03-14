@@ -1,5 +1,14 @@
 # PYTHON script
 
+'''
+PAMCRASH check SHELL elements
+=============================
+Description:
+* check the shell elements based the Nissan lenght ranges (x-y) separated by comma 
+* after : are limit percents - limit amount of shell elements which are in range
+* e.g. 3.5-4.5,5.5-6:<=30 
+'''
+
 import os
 from ansa import base
 from ansa import constants
@@ -74,10 +83,7 @@ def ExecCheckQualityElements(entities, params):
 
 		criteria_matrix = list()
 		criteria_percent= list()
-		# print('Parameter name: ', parameter_name, ' with value ', parameter_value)
 		if "LEN" in parameter_name:
-			# index_string =  parameter_name.split("LEN")
-			# index_lenght = int(index_string[1])
 			i = i +1 
 			criteria_limit = criteria_limits.split(",")
 			criteria_matrix_2 = list()			
@@ -93,7 +99,6 @@ def ExecCheckQualityElements(entities, params):
 			qualit[parameter_name] = criteria_matrix,criteria_percent
 	
 	total_len = len(entities)
-	# print('total_len', total_len)
 	lenght = list()		
 	
 	for ent in entities:
@@ -111,31 +116,22 @@ def ExecCheckQualityElements(entities, params):
 		for it, criteria in qualit.items():
 			crit_1 = criteria[0]
 			number_criteria	= len(crit_1)
-			# print('crit  '+it+'   crit_1',crit_1,'element',min)
-			# print('crit  '+it+'   crit_1[0][0]',crit_1[0][0])
-			# print('crit  '+it+'   crit_1[1][0]',crit_1[1][0])
-			# print('crit  '+it+'   crit_1[0]',crit_1[0])
-
 			
 			if number_criteria == 2:
-				# print('crit  '+it+'   crit_1[1]',crit_1[1])
-				# print('crit  '+it+'   crit_1[0]',crit_1[0])
-				# print('crit  '+it+'   crit_1[1][0]',crit_1[1][0])
-				# print('crit  '+it+'   crit_1[1][1]',crit_1[1][1])
+
 				if crit_1 [0][0] and crit_1 [0][1] and crit_1 [1][0] and crit_1 [1][1]:
 
 					if float(min[1])> float(crit_1 [0][0]) and float(min[1])< float(crit_1 [0][1]) :
-						# print(it + '  --  '+'crit_1 [0][0]',crit_1 [0][0],'crit_1 [0][1]',crit_1 [0][1],'min[1]',min[1])					
+				
 						i[it] = i[it] +1
 						h[it].append (base.Entity(constants.PAMCRASH, min[0], "SHELL"))
 					elif float(min[2])> float(crit_1 [1][0]) and float(min[2])< float(crit_1 [1][1]) :
-						# print(it + '  --  '+'crit_1 [0][0]',crit_1 [1][0],'crit_1 [0][1]',crit_1 [1][1],'min[1]',min[2])					
+				
 						i[it] = i[it] +1
 						h[it].append (base.Entity(constants.PAMCRASH, min[0], "SHELL"))
 
 			if number_criteria == 1:
-				# print('crit  '+it+'   crit_1[0]',crit_1[0])
-				# print('number_criteria',number_criteria)
+
 				if crit_1 [0][0] and crit_1 [0][1]:				
 					if min[1]> float(crit_1 [0][0]) and min[2]< float(crit_1 [0][1]) :
 						i[it] = i[it] +1
@@ -148,19 +144,14 @@ def ExecCheckQualityElements(entities, params):
 	t1.has_fix = True
 	t2.has_fix = True
 	t3.has_fix = True
-				
 						
 	for it, criteria in qualit.items():
 		status = 'OK'
 		number = 0
 		cr_1 = criteria[1]
 		cr = cr_1[0]
-		# print('cr', cr)
-		# print('total_len', total_len)
-		# print('len(h[it])', len(h[it]))
 		return_val = 0
 		u = evaluate_percents(cr,total_len,len(h[it]))
-		# print(evaluate_percents(cr,total_len,len(h[it]))
 		name_info = 'Status of Criteria '+it+ " - number of shells in range:"+str(len(h[it]))+' percent:'+str(u[0])+ '  percent target:' + str(cr)
 #
 		if "old" in it:
@@ -186,24 +177,6 @@ def FixCheckQualityElements(issues):
 		print(issue.has_fix)
 		problem_description = issue.description
 		ents = issue.entities
-        
-		# for it, criteria in qualit.items():
-			# if it in problem_description:
-				# crit_1 = criteria[0]
-				# if number_criteria == 2:
-					# base.F11ShellsOptionsSet("min lenght", True, "", crit_1 [0][0]*1.05)
-					# base.F11ShellsOptionsSet("max lenght", True, "", crit_1 [1][1]*0.95)
-				# if number_criteria == 1:
-					# base.F11ShellsOptionsSet("min lenght", True, "", crit_1 [0][0]*1.05)
-					# base.F11ShellsOptionsSet("max lenght", True, "", crit_1 [0][1]*0.95)
-				# status = base.And(ents)
-				# mesh.FixQuality()		
-				
-			# success = base.SetEntityCardValues(constants.NASTRAN, ent, {'Name': name})
-			# if success == 0:
-				# issue.is_fixed = True
-				# issue.update()
-
 # ==============================================================================
 
 checkOptions = { 'name': 'Check Quality of Shell Elements for NISSAN (PAM', 

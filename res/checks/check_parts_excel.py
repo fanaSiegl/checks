@@ -1,5 +1,30 @@
 # PYTHON script
 
+'''
+Check part names based on xls file for Nissan
+=============================================
+Description:
+Check the parts for following rules based part name:
+* thickness
+* material
+
+user defined parametrs:
+- Segment of part name 
+- Segment of material name  
+- Segment of thickness name
+- Number of segments
+- Thickness by part name check - YES   
+- Material by part name check - YES
+- Excel sheet name e.g. BCC18FU_Var_B_Cost
+- Excel part name identifier e.g. Component  
+- Excel part number name identifier e.g. P/N
+- Excel material name identifier e.g. Material
+- Excel thickness name identifier e.g. t [mm] 
+- Solver PAMCRASH
+- Delimiter for part name __ 
+
+'''
+
 import os
 from ansa import base
 from ansa import constants
@@ -277,8 +302,7 @@ checkDescription.add_str_param('Segment of part name', '1')
 checkDescription.add_str_param('Segment of material name', '2')  
 checkDescription.add_str_param('Segment of thickness name', '3')  
 checkDescription.add_str_param('Number of segments', '4')
-#checkDescription.add_str_param('Number of digits for thickness', '2') 
-#checkDescription.add_str_param('Max. number of chars', '80')  
+  
 checkDescription.add_str_param('Thickness by part name check', 'YES')   
 checkDescription.add_str_param('Material by part name check', 'YES')   
 checkDescription.add_str_param('Excel sheet name', 'BCC18FU_Var_B_Cost')   

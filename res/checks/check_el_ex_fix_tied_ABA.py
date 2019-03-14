@@ -1,5 +1,17 @@
 # PYTHON script
 
+'''
+ABAQUS check TIEDs
+===================
+Description:
+* check the reduced shell elements
+POS_TOLER,  DISTANCE= 5, TYPE_tie_coefficients = SURFACE TO SURFACE, ADJUST = NO
+ 
+Fix function
+------------
+* fixed to suggested setting
+'''
+
 import os
 from ansa import base
 from ansa import constants
@@ -178,16 +190,12 @@ def FixCheckQualityElements(issues):
 			values = par.split(':')
 			if values[0] != 'type_check':
 				dict_param [values[0]] = values[1]
-		#print('dict_param:  ', dict_param)
 		entities = issue.entities
 		for ent in entities:
 			success = ent.set_entity_values(constants.ABAQUS, dict_param)
 			if success == 0:
 				issue.is_fixed = True
-			#print('success:',success)
-			#print('entity:',ent)
-			#print('param_to_fix:',param_to_fix)
-		
+
 # ==============================================================================
 
 checkOptions = { 'name': 'Check ABAQUS : TIEDs ', 
