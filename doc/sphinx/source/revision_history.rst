@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit b842d92 (HEAD, tag: V.0.0.7, master)
+       * commit d68ae21 (HEAD, tag: V.0.0.8, master)
+   | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
+   | Date:   Thu Mar 14 10:07:25 2019 +0100
+   | 
+   |     check_materials_ex_fix bug fixed - in case of a proper load case type from the white list there was corresponding condition missing..
+   |  
+   * commit b842d92 (tag: V.0.0.7)
    | Author: stekly <jan.stekly@idiada.cz>
    | Date:   Fri Feb 15 15:16:50 2019 +0100
    | 
