@@ -60,8 +60,8 @@ def ExecCheckQualityElementsSkoda(entities, params):
         'MAXANGLE,SHELL,QUAD':{'criteria name F11':"max angle quads",'comparison':'<','type':'QUAD'},
         'MINANGLE,SHELL,TRIA':{'criteria name F11':"min angle trias",'comparison':'>','type':'TRIA'},
         'MAXANGLE,SHELL,TRIA':{'criteria name F11':"max angle trias",'comparison':'<','type':'TRIA'},
-        'TRIANGLES PER NODE,SHELL,QUAD,TRIA':{'criteria name F11':"triangles per node",'comparison':'<','type':'QUAD,TRIA'},
-        'ASPECT,SOLID,TETRA,HEXA,PENTA':{'criteria name F11': 'aspect ratio', 'comparison':'<=','type':'TETRA,HEXA,PENTA'},
+        'TRIANGLES PER NODE,SHELL,QUAD,TRIA':{'criteria name F11':"triangles per node",'comparison':'<=','type':'QUAD,TRIA'},
+        'ASPECT,SOLID,TETRA,HEXA,PENTA':{'criteria name F11': 'aspect ratio', 'comparison':'<','type':'TETRA,HEXA,PENTA'},
         'SKEW,SOLID,TETRA,HEXA,PENTA':{'criteria name F11':"skewness",'comparison':'<','type':'TETRA,HEXA,PENTA'},
         'WARP,SOLID,TETRA,HEXA,PENTA':{'criteria name F11':"warping",'comparison':'<','type':'TETRA,HEXA,PENTA'},
         'CRASH,SOLID,TETRA,HEXA,PENTA':{'criteria name F11':"crash time step",'comparison':'>','type':'TETRA,HEXA,PENTA'},
@@ -228,7 +228,7 @@ def ExecCheckQualityElementsSkoda(entities, params):
                 if type == 'SHELL':
                     if compare [2] == "MIN HEI" or compare [2] == "MIN-LEN":
                         lim = float(thickness_dict [prop]) * float(params['THICKNESS FACTOR'])
-                        if lim < 2.0 : lim = 2.0
+#                        if lim < 2.0 : lim = 2.0
                         if compare [0] < lim:
                             i [text] = i [text] + 1
                             if i [text] < int(params['Detail list for number of errors']):

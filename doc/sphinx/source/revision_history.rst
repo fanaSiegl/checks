@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit d68ae21 (HEAD, tag: V.0.0.8, master)
+       * commit aabb9d7 (HEAD, tag: V.0.0.9, master)
+   | Author: stekly <jan.stekly@idiada.cz>
+   | Date:   Wed Mar 27 17:41:19 2019 +0100
+   | 
+   |     Fixed tria nodes check
+   |  
+   * commit d68ae21 (tag: V.0.0.8)
    | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
    | Date:   Thu Mar 14 10:07:25 2019 +0100
    | 
