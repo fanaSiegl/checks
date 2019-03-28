@@ -115,9 +115,6 @@ def ExecCheckQualityElementsSkoda(entities, params):
 
             t [','.join(key[0:2])] = base.CheckReport(key[1]+','+key[0])
             t [','.join(key[0:2])].has_fix = False
-    t1 = time.time()
-    print('Reorder')
-    print(t1 - t0)
 ################################################################################    
 #                          Collecting entities
 ################################################################################  
@@ -136,9 +133,6 @@ def ExecCheckQualityElementsSkoda(entities, params):
         containers = None, 
         search_types =  ['SOLID'], 
         filter_visible = True)
-    t2 = time.time()
-    print('Collect')    
-    print(t2 - t1)
 ################################################################################    
 #               Extracting the thickness parameter from PARTs
 ################################################################################ 
@@ -149,31 +143,22 @@ def ExecCheckQualityElementsSkoda(entities, params):
             thickness_dict [part] = thick[thickness]
         else:
             thickness_dict [part] = thick[c_thickness]
-    t3 = time.time()
-    print('Thickneses')    
-    print(t3 - t2)
 ################################################################################    
 #               Extracting the defined mats 
 ################################################################################ 
     flag_defined_mat = 'YES'
-    print(mats)
     for mat in mats:
         defined = mat.get_entity_values(solver, ['DEFINED','Name'])   
-        print(defined['DEFINED'])
         if defined['DEFINED'] == 'NO':
             flag_defined_mat = 'NO'
             break
-        print(flag_defined_mat, 'flag_defined_mat')
-        print('defined', defined['Name'])        
 ################################################################################    
 #                 Checking loops
 ################################################################################ 
     i = {} 
     en = {}     
     for type, elems in elements.items():
-        t4 = time.time()
-        print(type)    
-        print(t4 - t3)      
+        t3 = time.time()
         for ent in elems:
             if type == 'SHELL':
                 prop = ent.get_entity_values(solver, ['IPART'])['IPART'] 
@@ -193,11 +178,9 @@ def ExecCheckQualityElementsSkoda(entities, params):
                     i [text] = 0
                     en [text] = []
 
-                if flag_defined_mat == 'NO' and compare [2] == "CRASH":
-                    continue
+                #if flag_defined_mat == 'NO' and compare [2] == "CRASH":
+                    #continue
                 flag_error = False
-                #print(ent, compare [0],compare [1], compare [2],compare [3] )
-                #print(flag_defined_mat, 'flag_defined_mat')
                 if compare [0] != 'error':
                     if compare [3] == '>':
                         if float(compare [0]) < float(compare [1]):
@@ -207,13 +190,11 @@ def ExecCheckQualityElementsSkoda(entities, params):
                     if compare [3] == '<':
                       
                         if float(compare [0]) > float(compare [1]): 
-#                            print(ent, compare [0],compare [1])
                             flag_error = True
                             diff = str(compare [0] - compare [1])  
                             
                     if compare [3] == '<=':                            
                             if  float(compare [0]) >= float(compare [1]): 
-#                                    print(ent, compare [0],compare [1])
                                     flag_error = True
                                     diff = str(compare [0] - compare [1])     
                     
@@ -268,7 +249,9 @@ def ExecCheckQualityElementsSkoda(entities, params):
                                     diff = diff )
                             else:
                                 en [text].append(ent)
-
+        t4 = time.time()
+        print('Time of checking the type of entity : ', type)    
+        print(t4 - t3)      
 
     if i != None:
         for key, val in i.items():
@@ -279,8 +262,8 @@ def ExecCheckQualityElementsSkoda(entities, params):
                     description = key + '  number of errors: '+str(len(en [key])))     
    
     t5 = time.time()
-    print('end: ',type)    
-    print(t5 - t4) 
+    print('End of execution of the check: ')    
+    print(t5 - t0) 
     
     to_report = []         
     for key, val in t.items():
