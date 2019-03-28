@@ -23,6 +23,7 @@ import time
 		
 def ExecCheckQualityElementsSkoda(entities, params):
     t0 = time.time()
+    print('start measure time')
     mesh.ReadQualityCriteria(params['Quality mesh file'])
     
 ################################################################################    
@@ -30,6 +31,7 @@ def ExecCheckQualityElementsSkoda(entities, params):
 ################################################################################    
     solver = params['Solver']
     solver_name = solver.upper()
+    limit_lines = int(params['Detail list for number of errors'])
     if solver_name == 'ABAQUS' or solver_name == 'PAMCRASH':
         if solver_name == 'ABAQUS':
           solver = constants.ABAQUS
@@ -120,9 +122,11 @@ def ExecCheckQualityElementsSkoda(entities, params):
 #                          Collecting entities
 ################################################################################  
     parts = base.CollectEntities(solver, 
-    entities, ent, 
-    prop_from_entities=True) 
-      
+    entities, ent, prop_from_entities=True) 
+    
+    mats = base.CollectEntities(solver, 
+    parts, '__MATERIALS__',  mat_from_entities=True)    
+    
     elements = {}
     elements['SHELL'] = base.CollectEntities(deck = solver,
         containers = None, 
@@ -149,6 +153,19 @@ def ExecCheckQualityElementsSkoda(entities, params):
     print('Thickneses')    
     print(t3 - t2)
 ################################################################################    
+#               Extracting the defined mats 
+################################################################################ 
+    flag_defined_mat = 'YES'
+    print(mats)
+    for mat in mats:
+        defined = mat.get_entity_values(solver, ['DEFINED','Name'])   
+        print(defined['DEFINED'])
+        if defined['DEFINED'] == 'NO':
+            flag_defined_mat = 'NO'
+            break
+        print(flag_defined_mat, 'flag_defined_mat')
+        print('defined', defined['Name'])        
+################################################################################    
 #                 Checking loops
 ################################################################################ 
     i = {} 
@@ -164,31 +181,11 @@ def ExecCheckQualityElementsSkoda(entities, params):
             dict_text = type+','+typ
             qual = base.ElementQuality(ent, criterias_type_ent [dict_text] )
             crit = criterias_type_ent [dict_text]
-            limit = criterias_type_val [dict_text]
+            limit= criterias_type_val [dict_text]
             oper = criterias_type_oper [dict_text]
             for compare in zip(qual, limit, crit, oper):
                 text = compare [2]+','+type   
                 
-################################################################################                   
-#                        check for skewness - user defined
-################################################################################         
-                if compare [2] == "SKEW" and type == 'SHELL':
-                    if typ == 'TRIA':
-                        lim = float(params['SKEW,TRIA'])
-                    elif typ == 'QUAD':
-                        lim = float(params['SKEW,QUAD'])
-                    if compare [0] > lim:
-                        i [text] = i [text] + 1
-                        if i [text] < int(params['Detail list for number of errors']): 
-                            diff = str(lim - compare [0])                                             
-                            t [text].add_issue(entities = [ent],
-                                status = 'Error',
-                                description = compare [2] + '  '+type,
-                                value = str(compare [0]), limit = str(lim),
-                                diff = diff )
-                        else:
-                            en [text] = en [text] + [ent]
-           
 ################################################################################                   
 #                        standard check for elements
 ################################################################################
@@ -196,11 +193,13 @@ def ExecCheckQualityElementsSkoda(entities, params):
                     i [text] = 0
                     en [text] = []
 
+                if flag_defined_mat == 'NO' and compare [2] == "CRASH":
+                    continue
                 flag_error = False
                 #print(ent, compare [0],compare [1], compare [2],compare [3] )
+                #print(flag_defined_mat, 'flag_defined_mat')
                 if compare [0] != 'error':
                     if compare [3] == '>':
-
                         if float(compare [0]) < float(compare [1]):
                             flag_error = True
                             diff = str(compare [1] - compare [0])
@@ -217,18 +216,19 @@ def ExecCheckQualityElementsSkoda(entities, params):
 #                                    print(ent, compare [0],compare [1])
                                     flag_error = True
                                     diff = str(compare [0] - compare [1])     
-                                    
-                    if flag_error == True:   
+                    
+                    if flag_error == True:  
                         i [text] = i [text] + 1
-                        if i [text] < int(params['Detail list for number of errors']):
-                          
+                        if i [text] < limit_lines:
                             t [text].add_issue(entities = [ent],
                                 status = 'Error',
                                 description = compare [2] + '  '+type,
                                 value = str(compare [0]), limit = str(compare [1]),
-                                diff = diff ) 
+                                diffe = diff ) 
                         else:
-                            en [text] = en [text] + [ent]  
+                            en [text].append(ent)
+                else:
+                    continue
                                                      
 ################################################################################                   
 #          additional check for lenght - thick * THICKNESS FACTOR
@@ -239,7 +239,7 @@ def ExecCheckQualityElementsSkoda(entities, params):
 #                        if lim < 2.0 : lim = 2.0
                         if compare [0] < lim:
                             i [text] = i [text] + 1
-                            if i [text] < int(params['Detail list for number of errors']):
+                            if i [text] < limit_lines:
                                 diff = str(lim - compare [0])                 
                                 t [text].add_issue(entities = [ent],
                                     status = 'Error',
@@ -247,17 +247,41 @@ def ExecCheckQualityElementsSkoda(entities, params):
                                     value = str(compare [0]), limit = str(lim),
                                     diff = diff )
                             else:
-                                en [text] = en [text] + [ent]                                
+                                en [text].append(ent)
+                                
+################################################################################                   
+#                        check for skewness - user defined
+################################################################################         
+                    if compare [2] == "SKEW":
+                        if typ == 'TRIA':
+                            lim = float(params['SKEW,TRIA'])
+                        elif typ == 'QUAD':
+                            lim = float(params['SKEW,QUAD'])
+                        if compare [0] > lim:
+                            i [text] = i [text] + 1
+                            if i [text] < limit_lines: 
+                                diff = str(lim - compare [0])                                             
+                                t [text].add_issue(entities = [ent],
+                                    status = 'Error',
+                                    description = compare [2] + '  '+type,
+                                    value = str(compare [0]), limit = str(lim),
+                                    diff = diff )
+                            else:
+                                en [text].append(ent)
+
 
     if i != None:
         for key, val in i.items():
             #print(key, val)
-            if val > int(params['Detail list for number of errors']):
+            if val > limit_lines:
                 t [key].add_issue(entities = en [key],
                     status = 'Error',
                     description = key + '  number of errors: '+str(len(en [key])))     
    
-                
+    t5 = time.time()
+    print('end: ',type)    
+    print(t5 - t4) 
+    
     to_report = []         
     for key, val in t.items():
         to_report.append(val)

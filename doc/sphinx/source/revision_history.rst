@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit 584a352 (HEAD, tag: V.0.1.0, master)
+       * commit 9629e9e (HEAD, tag: V.0.1.1, master)
+   | Author: stekly <jan.stekly@idiada.cz>
+   | Date:   Thu Mar 28 10:13:24 2019 +0100
+   | 
+   |     add time checking
+   |  
+   * commit 584a352 (tag: V.0.1.0)
    | Author: stekly <jan.stekly@idiada.cz>
    | Date:   Wed Mar 27 17:48:06 2019 +0100
    | 
