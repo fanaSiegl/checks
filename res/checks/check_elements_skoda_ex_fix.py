@@ -17,11 +17,12 @@ from ansa import  mesh
 import re
 import operator
 import copy
+import time
 
 # ==============================================================================
 		
 def ExecCheckQualityElementsSkoda(entities, params):
-
+    t0 = time.time()
     mesh.ReadQualityCriteria(params['Quality mesh file'])
     
 ################################################################################    
@@ -112,7 +113,9 @@ def ExecCheckQualityElementsSkoda(entities, params):
 
             t [','.join(key[0:2])] = base.CheckReport(key[1]+','+key[0])
             t [','.join(key[0:2])].has_fix = False
-    
+    t1 = time.time()
+    print('Reorder')
+    print(t1 - t0)
 ################################################################################    
 #                          Collecting entities
 ################################################################################  
@@ -129,7 +132,9 @@ def ExecCheckQualityElementsSkoda(entities, params):
         containers = None, 
         search_types =  ['SOLID'], 
         filter_visible = True)
-    
+    t2 = time.time()
+    print('Collect')    
+    print(t2 - t1)
 ################################################################################    
 #               Extracting the thickness parameter from PARTs
 ################################################################################ 
@@ -140,15 +145,18 @@ def ExecCheckQualityElementsSkoda(entities, params):
             thickness_dict [part] = thick[thickness]
         else:
             thickness_dict [part] = thick[c_thickness]
-
-
-
+    t3 = time.time()
+    print('Thickneses')    
+    print(t3 - t2)
 ################################################################################    
 #                 Checking loops
 ################################################################################ 
     i = {} 
     en = {}     
     for type, elems in elements.items():
+        t4 = time.time()
+        print(type)    
+        print(t4 - t3)      
         for ent in elems:
             if type == 'SHELL':
                 prop = ent.get_entity_values(solver, ['IPART'])['IPART'] 
@@ -200,13 +208,13 @@ def ExecCheckQualityElementsSkoda(entities, params):
                     if compare [3] == '<':
                       
                         if float(compare [0]) > float(compare [1]): 
-                            print(ent, compare [0],compare [1])
+#                            print(ent, compare [0],compare [1])
                             flag_error = True
                             diff = str(compare [0] - compare [1])  
                             
                     if compare [3] == '<=':                            
                             if  float(compare [0]) >= float(compare [1]): 
-                                    print(ent, compare [0],compare [1])
+#                                    print(ent, compare [0],compare [1])
                                     flag_error = True
                                     diff = str(compare [0] - compare [1])     
                                     
