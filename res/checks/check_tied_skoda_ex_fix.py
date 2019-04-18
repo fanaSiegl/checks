@@ -173,5 +173,5 @@ checkOptions = { 'name': 'Check TIEDs for SKODA (PAM)',
     'info': 'Checks TIEDs'}
     
 checkDescription = base.CheckDescription(**checkOptions)
-
+checkDescription.add_str_param('Include prefix', 'FEN')
 # ==============================================================================
