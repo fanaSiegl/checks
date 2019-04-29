@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit b96e005 (HEAD, tag: V.0.1.3, master)
+       * commit 9a6e659 (HEAD, tag: V.0.1.4, master)
+   | Author: stekly <jan.stekly@idiada.cz>
+   | Date:   Thu Apr 18 08:59:50 2019 +0200
+   | 
+   |     correction of tied check for SKODA
+   |  
+   * commit b96e005 (tag: V.0.1.3)
    | Author: stekly <jan.stekly@idiada.cz>
    | Date:   Thu Mar 28 13:27:48 2019 +0100
    | 

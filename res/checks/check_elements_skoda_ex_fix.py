@@ -138,7 +138,11 @@ def ExecCheckQualityElementsSkoda(entities, params):
 ################################################################################ 
     thickness_dict = {}
     for part in parts:
-        thick = part.get_entity_values(solver, [thickness, c_thickness])   
+        if part.ansa_type(solver) == 'PART_SHELL':
+            thick = part.get_entity_values(solver, [thickness, c_thickness])
+        if part.ansa_type(solver) == 'PART_MEMBRANE':  
+            thick = part.get_entity_values(solver, [thickness])
+            thick[c_thickness] = thick [thickness]
         if not thick[c_thickness]:
             thickness_dict [part] = thick[thickness]
         else:
