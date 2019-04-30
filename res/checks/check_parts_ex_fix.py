@@ -81,7 +81,6 @@ def ExecCheckParts(entities, params):
             t4.add_issue(entities = [part], status = 'Error', description = 'Wrong numer of segment')
         else:
 # check of number of chars 
-            print(len(name))       
             if len(name) > int(params['Max. number of chars']):
             
                 t8.add_issue(entities = [part], status = 'Error',
@@ -95,11 +94,10 @@ def ExecCheckParts(entities, params):
                     thickness = str(thickness_number),
                     thickness_suggest = str(thickness_number_round),
                     key  = thickness,
-                    solver = str(solver))
+                    __solver = str(solver))
                     
 # check of thickness by info from part name
             if str(params['Thickness by part name check']) == 'YES':
-                #print(params['Segment of thickness name'])
                 if (str(params['Segment of thickness name']) != "0" and str(params['Segment of thickness name']) != "var") and str(params['Segment of thickness name']) != "" :
                     thickness_from_part_name = name_list[int(params['Segment of thickness name'])-1] 
                     thickness_from_part_name = thickness_from_part_name.replace("mm","")
@@ -111,7 +109,7 @@ def ExecCheckParts(entities, params):
                             thickness = str(thickness_number),
                             thickness_suggest = str(thickness_from_part_name),
                             key  = thickness,
-                            solver = str(solver))
+                            __solver = str(solver))
             
 # check of contact thickness
             if deck == constants.PAMCRASH and str(params['Contact thickness check']) == 'YES':
@@ -121,6 +119,15 @@ def ExecCheckParts(entities, params):
                     c_thickness_number = float(c_thickness_number[c_thickness])
                 else:
                     c_thickness_number = 0.0
+
+                if 'CONNECTION' in name:
+                    if float(c_thickness_number) != 0.5:
+                        t7.add_issue(entities = [part], status = 'Error',                       
+                            description = 'Contact thickness for CONNECTION parts should be 0.5 mm',
+                            c_thickness_suggest = str(0.5),
+                            key = c_thickness,
+                            __solver = str(solver))                      
+                        continue
                     
                 if c_thickness_number == 0.0:
                     c_thickness_suggest = thickness
@@ -135,16 +142,8 @@ def ExecCheckParts(entities, params):
                         thickness = str(thickness_number),
                         c_thickness_suggest = c_thickness_number,
                         key = c_thickness,
-                        solver = str(solver))
+                        __solver = str(solver))
                     
-                elif 'CONNECTION' in name:
-                    if c_thickness_number != 0.5:
-                        t7.add_issue(entities = [part], status = 'Error',                    	
-                            description = 'Contact thickness for CONNECTION parts should be 0.5 mm',
-                            c_thickness_suggest = str(0.5),
-                            key = c_thickness,
-                            solver = str(solver))                      
-                        continue
                 else:
                     if  c_thickness_number != thickness_number and thickness_number <= 3 and thickness_number >= 0.5:           
                         t7.add_issue(entities = [part], status = 'Error',
@@ -153,7 +152,7 @@ def ExecCheckParts(entities, params):
                             thickness = str(thickness_number),
                             c_thickness_suggest = str(thickness_number),
                             key = c_thickness,
-                            solver = str(solver))
+                            __solver = str(solver))
                                             
                     if c_thickness_number < 0.5 and thickness_number < 0.5:
                         t7.add_issue(entities = [part], status = 'Error',
@@ -162,7 +161,7 @@ def ExecCheckParts(entities, params):
                             thickness = str(thickness_number),
                             c_thickness_suggest = '0.5' ,
                             key = c_thickness,
-                            solver = str(solver)) 
+                            __solver = str(solver)) 
                                           
                     if c_thickness_number > 3 and thickness_number >= 3.0:
                         t7.add_issue(entities = [part], status = 'Error',
@@ -171,13 +170,13 @@ def ExecCheckParts(entities, params):
                             thickness = str(thickness_number),
                             c_thickness_suggest = '3',
                             key = c_thickness,
-                            solver = str(solver))
+                            __solver = str(solver))
     to_report.append(t4)
     to_report.append(t5)  
     to_report.append(t6) 
     to_report.append(t7)  
     to_report.append(t8)   
-           
+    print('Properties check for PAMCRASH - SKODA. Number of errors: ',len(to_report))       
     return to_report
 
 # ==============================================================================
@@ -192,7 +191,7 @@ def FixcCheckParts(issues):
         if issue.description.startswith( 'Thickness' ):
             field = {issue.key:issue.thickness_suggest}  
         for ent in ents:
-            success = ent.set_entity_values(int(issue.solver), field)
+            success = ent.set_entity_values(int(issue.__solver), field)
             if success == 0:
                 issue.is_fixed = True
 
