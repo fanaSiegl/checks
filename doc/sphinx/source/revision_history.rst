@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit 7c775d6 (HEAD, tag: V.0.1.5, master)
+       * commit a46a024 (HEAD, tag: V.0.1.6, master)
+   | Author: stekly <jan.stekly@idiada.cz>
+   | Date:   Tue Apr 30 15:57:08 2019 +0200
+   | 
+   |     Fix - check of part contact thickness for CONNECTION parts
+   |  
+   * commit 7c775d6 (tag: V.0.1.5)
    | Author: stekly <jan.stekly@idiada.cz>
    | Date:   Mon Apr 29 09:50:15 2019 +0200
    | 

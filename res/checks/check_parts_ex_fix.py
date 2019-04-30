@@ -139,10 +139,11 @@ def ExecCheckParts(entities, params):
                     
                 elif 'CONNECTION' in name:
                     if c_thickness_number != 0.5:
-                        description = 'Contact thickness for CONNECTION parts should be 0.5 mm',
-                        c_thickness_suggest = 0.5,
-                        key = c_thickness,
-                        solver = str(solver))                      
+                        t7.add_issue(entities = [part], status = 'Error',                    	
+                            description = 'Contact thickness for CONNECTION parts should be 0.5 mm',
+                            c_thickness_suggest = str(0.5),
+                            key = c_thickness,
+                            solver = str(solver))                      
                         continue
                 else:
                     if  c_thickness_number != thickness_number and thickness_number <= 3 and thickness_number >= 0.5:           
