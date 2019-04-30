@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit 65f04c3 (HEAD, tag: V.0.1.7, master)
+       * commit 8330115 (HEAD, tag: V.0.1.8, master)
+   | Author: stekly <jan.stekly@idiada.cz>
+   | Date:   Tue Apr 30 16:14:56 2019 +0200
+   | 
+   |     small check
+   |  
+   * commit 65f04c3 (tag: V.0.1.7)
    | Author: stekly <jan.stekly@idiada.cz>
    | Date:   Tue Apr 30 16:01:34 2019 +0200
    | 

@@ -93,7 +93,7 @@ def ExecCheckParts(entities, params):
                     description = 'Thickness -  digits are bigger then '+str(params['Number of digits for thickness']),
                     thickness = str(thickness_number),
                     thickness_suggest = str(thickness_number_round),
-                    key  = thickness,
+                    __key  = thickness,
                     __solver = str(solver))
                     
 # check of thickness by info from part name
@@ -108,7 +108,7 @@ def ExecCheckParts(entities, params):
                             description = 'Thickness is different than '+thickness_from_part_name,
                             thickness = str(thickness_number),
                             thickness_suggest = str(thickness_from_part_name),
-                            key  = thickness,
+                            __key  = thickness,
                             __solver = str(solver))
             
 # check of contact thickness
@@ -124,8 +124,9 @@ def ExecCheckParts(entities, params):
                     if float(c_thickness_number) != 0.5:
                         t7.add_issue(entities = [part], status = 'Error',                       
                             description = 'Contact thickness for CONNECTION parts should be 0.5 mm',
+                            c_thickness = str(c_thickness_number),                            
                             c_thickness_suggest = str(0.5),
-                            key = c_thickness,
+                            __key = c_thickness,
                             __solver = str(solver))                      
                         continue
                     
@@ -141,17 +142,17 @@ def ExecCheckParts(entities, params):
                         c_thickness = str(c_thickness_number),
                         thickness = str(thickness_number),
                         c_thickness_suggest = c_thickness_number,
-                        key = c_thickness,
+                        __key = c_thickness,
                         __solver = str(solver))
                     
                 else:
                     if  c_thickness_number != thickness_number and thickness_number <= 3 and thickness_number >= 0.5:           
-                        t7.add_issue(entities = [part], status = 'Error',
+                        t7.add_issue(entities = [part], status = 'Warning',
                             description = 'Contact thickness should be same as thickness',
                             c_thickness = str(c_thickness_number),
                             thickness = str(thickness_number),
                             c_thickness_suggest = str(thickness_number),
-                            key = c_thickness,
+                            __key = c_thickness,
                             __solver = str(solver))
                                             
                     if c_thickness_number < 0.5 and thickness_number < 0.5:
@@ -160,7 +161,7 @@ def ExecCheckParts(entities, params):
                             c_thickness = str(c_thickness_number),
                             thickness = str(thickness_number),
                             c_thickness_suggest = '0.5' ,
-                            key = c_thickness,
+                            __key = c_thickness,
                             __solver = str(solver)) 
                                           
                     if c_thickness_number > 3 and thickness_number >= 3.0:
@@ -169,14 +170,14 @@ def ExecCheckParts(entities, params):
                             c_thickness = str(c_thickness_number),
                             thickness = str(thickness_number),
                             c_thickness_suggest = '3',
-                            key = c_thickness,
+                            __key = c_thickness,
                             __solver = str(solver))
     to_report.append(t4)
     to_report.append(t5)  
     to_report.append(t6) 
     to_report.append(t7)  
     to_report.append(t8)   
-    print('Properties check for PAMCRASH - SKODA. Number of errors: ',len(to_report))       
+    print('Properties check for PAMCRASH - SKODA. Number of errors: ',len(t7)+len(t5)+len(t4))
     return to_report
 
 # ==============================================================================
@@ -186,10 +187,10 @@ def FixcCheckParts(issues):
     for issue in issues:
         ents = issue.entities
         if issue.description.startswith( 'Contact thickness' ):
-            field = {issue.key:issue.c_thickness_suggest}
+            field = {issue.__key:issue.c_thickness_suggest}
             
         if issue.description.startswith( 'Thickness' ):
-            field = {issue.key:issue.thickness_suggest}  
+            field = {issue.__key:issue.thickness_suggest}  
         for ent in ents:
             success = ent.set_entity_values(int(issue.__solver), field)
             if success == 0:
