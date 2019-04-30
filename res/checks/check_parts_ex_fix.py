@@ -116,6 +116,7 @@ def ExecCheckParts(entities, params):
 # check of contact thickness
             if deck == constants.PAMCRASH and str(params['Contact thickness check']) == 'YES':
                 c_thickness_number = part.get_entity_values(solver, [c_thickness])
+                
                 if c_thickness_number:
                     c_thickness_number = float(c_thickness_number[c_thickness])
                 else:
@@ -126,7 +127,7 @@ def ExecCheckParts(entities, params):
                     if c_thickness_number < 0.5:
                         c_thickness_number = 0.5
                     if c_thickness_number > 3:
-                        c_thickness_number = 3     
+                        c_thickness_number = 3
                                            
                     t7.add_issue(entities = [part], status = 'Error',
                         description = 'Contact thickness is different then thickness '+thickness_number,
@@ -135,6 +136,14 @@ def ExecCheckParts(entities, params):
                         c_thickness_suggest = c_thickness_number,
                         key = c_thickness,
                         solver = str(solver))
+                    
+                elif 'CONNECTION' in name:
+                    if c_thickness_number != 0.5:
+                        description = 'Contact thickness for CONNECTION parts should be 0.5 mm',
+                        c_thickness_suggest = 0.5,
+                        key = c_thickness,
+                        solver = str(solver))                      
+                        continue
                 else:
                     if  c_thickness_number != thickness_number and thickness_number <= 3 and thickness_number >= 0.5:           
                         t7.add_issue(entities = [part], status = 'Error',
@@ -162,7 +171,6 @@ def ExecCheckParts(entities, params):
                             c_thickness_suggest = '3',
                             key = c_thickness,
                             solver = str(solver))
- 
     to_report.append(t4)
     to_report.append(t5)  
     to_report.append(t6) 
