@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit bb49ef0 (HEAD, tag: V.0.1.9, master)
+       * commit aae3618 (HEAD, tag: V.0.1.10, master)
+   | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
+   | Date:   Thu May 9 11:53:20 2019 +0200
+   | 
+   |     check_el_ex_fix_connector - reference before assignment bug fixed.
+   |  
+   * commit bb49ef0 (tag: V.0.1.9)
    | Author: stekly <jan.stekly@idiada.cz>
    | Date:   Tue Apr 30 16:25:54 2019 +0200
    | 
