@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit aae3618 (HEAD, tag: V.0.1.10, master)
+       * commit d349e9b (HEAD, tag: V.0.1.11, master)
+   | Author: stekly <jan.stekly@idiada.cz>
+   | Date:   Thu May 16 14:14:37 2019 +0200
+   | 
+   |     kontact check fixation
+   |  
+   * commit aae3618 (tag: V.0.1.10)
    | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
    | Date:   Thu May 9 11:53:20 2019 +0200
    | 

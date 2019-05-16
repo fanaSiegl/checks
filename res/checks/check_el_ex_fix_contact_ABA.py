@@ -44,5 +44,5 @@ checkDescription.add_str_param('INTERACTION', '>=1.0')
 checkDescription.add_str_param('ADJUST', 'POS_VAL')
 checkDescription.add_str_param('POS_VAL', '>=0.0')  
 checkDescription.add_str_param('IF-NOT-CHECK VALUE', '>=0.0')
-checkDescription.add_str_param('IF-NOT-CHECK TYPE', 'CONTACT PAIR')
+checkDescription.add_str_param('IF-CHECK TYPE', 'CONTACT PAIR')
 # ==============================================================================
