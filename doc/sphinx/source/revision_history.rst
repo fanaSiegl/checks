@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit 35e9473 (HEAD, tag: V.0.1.12, master)
+       * commit 5d28c63 (HEAD, tag: V.0.1.13, master)
+   | Author: Lukas Kadlec <lukas.kadlec@idiada.cz>
+   | Date:   Thu Nov 14 12:29:02 2019 +0100
+   | 
+   |     elem_gap check: penetration check removed, fix function implemented for wrong node definition orientation.
+   |  
+   * commit 35e9473 (tag: V.0.1.12)
    | Author: stekly <jan.stekly@idiada.cz>
    | Date:   Thu May 16 14:50:52 2019 +0200
    | 
