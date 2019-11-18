@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 '''
@@ -68,7 +68,7 @@ class AnsaChecksPlistUpdater(object):
                 if os.path.isfile(dst):
                     os.remove(dst)
                     
-                print 'Copying: %s' % checkFileName
+                print('Copying: %s' % checkFileName)
                 shutil.copy(src, dst)
 
 #==============================================================================
@@ -89,7 +89,7 @@ def main():
         if os.path.isdir(args.destPath[0]):
             AnsaChecksPlistUpdater.copyChecks(args.destPath[0])
         else:
-            print 'Given path does not exist!'
+            print('Given path does not exist!')
             sys.exit(1)
     
     # create plist from current check_*.py files in /default/ path
@@ -97,7 +97,7 @@ def main():
 #         if os.path.isdir(args.srcPath):
 #             AnsaChecksPlistUpdater.createPlist(args.srcPath)
 #         else:
-#             print 'Given source path does not exist!'
+#             print('Given source path does not exist!')
 #     else:
     AnsaChecksPlistUpdater.createPlist()
 

@@ -8,10 +8,7 @@ import sys
 import numpy as np
 import subprocess
 
-try:
-    import ConfigParser
-except ImportError as e:
-    import configparser as ConfigParser
+import configparser
 
 #==============================================================================
 
@@ -30,7 +27,7 @@ def getVersionInfo():
 
     SECTION_VERSION = 'VERSION'
      
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
      
     cfgFileName = os.path.join(PATH_INI, VERSION_FILE)
     config.read(cfgFileName)
@@ -49,7 +46,14 @@ def runSubprocess(command, cwd=None):
         command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
         cwd=cwd)
     
-    return process.communicate()
+    stdout, stderr = process.communicate()
+    
+    if stdout is not None:
+        stdout = stdout.decode("ascii",errors="ignore")
+    if stderr is not None:
+        stderr = stderr.decode("ascii",errors="ignore")
+    
+    return stdout, stderr
 
 #==============================================================================
    
