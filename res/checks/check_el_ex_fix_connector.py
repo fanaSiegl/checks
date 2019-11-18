@@ -40,6 +40,8 @@ class entity_cls (base.Entity):
 		pos_B = calc.GlobalToLocal(dict_cs['ORIENT_1']._id, pos_B, "point")
 		
 		dist_x , dist_y, dist_z =pos_B[0] - pos_A[0],pos_B[1] - pos_A[1],pos_B[2] - pos_A[2]
+		
+		status_lenght = ''
 		if  dist_x > 1.e-5 or dist_x < -1.e-5:
 			status_lenght = 'Initial lenght for local coord x of connector for should be 0.0, the current lenght is: ' + str(dist_x)
 		if  dist_y > 1.e-5 or dist_y < -1.e-5:
