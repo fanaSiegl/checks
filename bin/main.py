@@ -51,7 +51,7 @@ class AnsaChecksPlistUpdater(object):
         stdout, stderr = utils.runSubprocess(command, cwd=utils.PATH_BIN)
         
         for line in stdout.splitlines():
-            print(line.decode("utf-8"))
+            print(line)
     
     #--------------------------------------------------------------------------
     @staticmethod
