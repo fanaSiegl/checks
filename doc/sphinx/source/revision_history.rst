@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit f643a48 (HEAD, tag: V.0.1.14, master)
+       * commit 67422a7 (HEAD, tag: V.0.1.14, master)
+   | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
+   | Date:   Mon Nov 18 15:35:25 2019 +0100
+   | 
+   |     Documentation updated
+   |  
+   * commit f643a48
    | Author: mirzov <ihor.mirzov@idiada.cz>
    | Date:   Mon Nov 18 15:04:47 2019 +0100
    | 
