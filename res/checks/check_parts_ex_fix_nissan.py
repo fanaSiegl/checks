@@ -3,8 +3,9 @@
 '''
 PAMCRASH check parts for Nissan
 ======================================
-Description:
-Check the parts for following rules:
+
+Check parts for the following rules:
+
 * Number of segments = 4
 * Delimiter for part name = __
 * Number of digits for thickness = 1
@@ -14,8 +15,8 @@ Check the parts for following rules:
 * Segment of thickness name = 2 
 * Solver - PAMCRASH
 
-Fix:
-* function of fix is available for some warnings
+**Fix function** is available for some warnings.
+
 '''
 
 import os

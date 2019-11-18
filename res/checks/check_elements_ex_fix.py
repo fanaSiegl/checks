@@ -3,10 +3,10 @@
 '''
 PAMCRASH check SHELL elements
 =============================
-Description:
-* check the shell elements based the Nissan lenght ranges (x-y) separated by comma 
-* after : are limit percents - limit amount of shell elements which are in range
-* e.g. 3.5-4.5,5.5-6:<=30 
+
+* Check the shell elements based the Nissan lenght ranges (x-y) separated by comma.
+* After : are limit percents - limit amount of shell elements which are in range, e.g. 3.5-4.5,5.5-6:<=30.
+
 '''
 
 import os

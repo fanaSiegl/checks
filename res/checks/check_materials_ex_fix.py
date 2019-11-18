@@ -1,10 +1,13 @@
 # PYTHON script
+
 '''
 ABAQUS/PAMCRASH/NASTRAN check materials  
 =======================================
-Description:
-* check materials based matching list and name in properties name 
-* user defined parameters:
+
+Check materials based matching list and name in properties name.
+
+**User defined parameters**:
+
 - delimiter for part name of segment e.g. __
 - number of segments of names of properties e.g. 5
 - type of loadcase e.g. COMMON 
@@ -14,8 +17,8 @@ Description:
 - matching list - /data/fem/+software/SKODA_INCLUDE/white_list
 - solver can be ABAQUS/PAMCRASH/NASTRAN
 
-Fix:
-* function of fix is available for some warnings
+**Fix function** is available for some warnings.
+
 '''
 
 import os

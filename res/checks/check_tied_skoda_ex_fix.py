@@ -1,12 +1,17 @@
 # PYTHON script
+
 '''
 Check TIEs for Skoda
 ====================
-Description:
-Check the TIE for entities names consistency
-* same name in hierarchy  
-  - tied name - properties name - groups names
+
+Check the TIE for entities names consistency.
+
+* Same name in hierarchy
+
+  * Tied name - properties name - groups names
+
 '''
+
 import os
 from ansa import base
 from ansa import constants
@@ -173,5 +178,5 @@ checkOptions = { 'name': 'Check TIEDs for SKODA (PAM)',
     'info': 'Checks TIEDs'}
     
 checkDescription = base.CheckDescription(**checkOptions)
-
+checkDescription.add_str_param('Include prefix', 'FEN')
 # ==============================================================================

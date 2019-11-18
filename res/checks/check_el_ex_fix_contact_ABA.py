@@ -3,10 +3,11 @@
 '''
 Check ABAQUS : CONTACTs
 =======================
-Description:
-The script check the ABAQUS contact pairs
-* automatic depenetration ADJUST = 0
-* with exception small sliding and clearence = value  
+
+The script check the ABAQUS contact pairs.
+
+* Automatic depenetration ADJUST = 0
+* With exception small sliding and clearence = value  
 
 '''
 
@@ -44,5 +45,5 @@ checkDescription.add_str_param('INTERACTION', '>=1.0')
 checkDescription.add_str_param('ADJUST', 'POS_VAL')
 checkDescription.add_str_param('POS_VAL', '>=0.0')  
 checkDescription.add_str_param('IF-NOT-CHECK VALUE', '>=0.0')
-  
+checkDescription.add_str_param('IF-CHECK TYPE', 'CONTACT PAIR')
 # ==============================================================================

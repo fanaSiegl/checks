@@ -3,13 +3,14 @@
 '''
 ABAQUS check BEAM section Elements
 ==================================
-Description:
-* the script check if the hybrid elements are used for bemas
 
-Fix function
-------------
-* add definition type element for BEAM
-* parameter: optional2' = 'H'
+The script checks if the hybrid elements are used for beams.
+
+**Fix function**:
+
+* Add definition type element for BEAM.
+* Parameter: optional2 = 'H'.
+
 '''
 
 import os
