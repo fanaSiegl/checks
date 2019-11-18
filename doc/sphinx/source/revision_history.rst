@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit 5d28c63 (HEAD, tag: V.0.1.13, master)
+       * commit f643a48 (HEAD, tag: V.0.1.14, master)
+   | Author: mirzov <ihor.mirzov@idiada.cz>
+   | Date:   Mon Nov 18 15:04:47 2019 +0100
+   | 
+   |     Fixed the documentation strings
+   |  
+   * commit 5d28c63 (tag: V.0.1.13)
    | Author: Lukas Kadlec <lukas.kadlec@idiada.cz>
    | Date:   Thu Nov 14 12:29:02 2019 +0100
    | 

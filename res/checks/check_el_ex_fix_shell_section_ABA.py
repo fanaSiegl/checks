@@ -3,12 +3,11 @@
 '''
 ABAQUS check shells
 ===================
-Description:
-* check the reduced shell elements
+
+Checks reduced shell elements.
  
-Fix function
-------------
-* add optional1 = R
+**Fix function**: add optional1 = R
+
 '''
 
 import os

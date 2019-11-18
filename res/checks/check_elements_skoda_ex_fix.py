@@ -3,13 +3,15 @@
 '''
 SKODA check elements
 ====================
-Description:
-* check the shell and solid elements based the Skoda rules
-* basic check of elements is realized xxx.ansa_qual file
-* user defined check element: min_lenght = THICKNESS FACTOR * thickness
-* user defined check element for skew : TRIA = 60.0, QUAD = 48.0
-* possible compress list bigger then e.g. 100 lines 
+
+* Check the shell and solid elements based the Skoda rules
+* Basic check of elements is realized xxx.ansa_qual file
+* User defined check element: min_lenght = THICKNESS FACTOR * thickness
+* User defined check element for skew : TRIA = 60.0, QUAD = 48.0
+* Possible compress list bigger then e.g. 100 lines 
+
 '''
+
 import os
 from ansa import base
 from ansa import constants

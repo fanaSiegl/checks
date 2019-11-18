@@ -3,13 +3,13 @@
 '''
 ABAQUS check TIEDs
 ===================
-Description:
-* check the reduced shell elements
-POS_TOLER,  DISTANCE= 5, TYPE_tie_coefficients = SURFACE TO SURFACE, ADJUST = NO
+
+Checks reduced shell elements.
+
+  POS_TOLER, DISTANCE=5, TYPE_tie_coefficients=SURFACE TO SURFACE, ADJUST=NO
  
-Fix function
-------------
-* fixed to suggested setting
+**Fix function** is fixed to suggested setting.
+
 '''
 
 import os

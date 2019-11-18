@@ -3,13 +3,12 @@
 '''
 ABAQUS check connectors for RKD/PV1200
 ======================================
-Description:
-* check the penetration of connector - compare the lenght and connector stop  
-* check lenght of connector: the lenght of connector should be l = (0,0,1)
+
+* Check the penetration of connector - compare the lenght and connector stop  
+* Check lenght of connector: the lenght of connector should be l = (0,0,1)
  
-Fix function
-------------
-none
+**Fix function**: none
+
 '''
 
 import os

@@ -3,10 +3,11 @@
 '''
 Check ABAQUS : CONTACTs
 =======================
-Description:
-The script check the ABAQUS contact pairs
-* automatic depenetration ADJUST = 0
-* with exception small sliding and clearence = value  
+
+The script check the ABAQUS contact pairs.
+
+* Automatic depenetration ADJUST = 0
+* With exception small sliding and clearence = value  
 
 '''
 
