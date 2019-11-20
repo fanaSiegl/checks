@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit f061d99 (HEAD, tag: V.0.1.15, master)
+       * commit af52aeb (HEAD, tag: V.0.1.15, master)
+   | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
+   | Date:   Mon Nov 18 17:15:12 2019 +0100
+   | 
+   |     test installation
+   |  
+   * commit f061d99
    | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
    | Date:   Mon Nov 18 17:09:46 2019 +0100
    | 
