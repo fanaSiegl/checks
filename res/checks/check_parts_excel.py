@@ -9,6 +9,11 @@ Check parts for the following rules based on part name:
 * thickness
 * material
 
+Usage
+-----
+
+**Primary solver** - PAMCRASH.
+
 **User defined parameters**:
 
 * Segment of part name 
@@ -22,7 +27,6 @@ Check parts for the following rules based on part name:
 * Excel part number name identifier e.g. P/N
 * Excel material name identifier e.g. Material
 * Excel thickness name identifier e.g. t [mm] 
-* Solver PAMCRASH
 * Delimiter for part name __ 
 
 '''

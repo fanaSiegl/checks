@@ -4,22 +4,17 @@
 ABAQUS check GAP penetrations
 ======================================
 
-checks the penetration of GAP elements
+Checks the penetration of GAP elements.
 
-* compares relative node position (GAP: GA, GB) with the vector (GAP_PROP: C1, C2, C3) 
+Compares relative node position (GAP: GA, GB) with the vector (GAP_PROP: C1, C2, C3)
 and raises an error when Gap node position is incorrect.
 
 Usage
 -----
 
-**Primary solver**
+**Primary solver** - ABAQUS.
 
-* ABAQUS
-
-
-**Fix function**
-
-* switches Gap node order (GA<==>GB).
+**Fix function** switches Gap node order (GA<==>GB).
 
 '''
 

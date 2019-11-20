@@ -4,17 +4,36 @@ Revision history
 
 Revision history graph::
     
-       * commit af52aeb (HEAD, tag: V.0.1.15, master)
-   | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
-   | Date:   Mon Nov 18 17:15:12 2019 +0100
+       * commit 475f517 (HEAD, tag: V.0.1.16, master)
+   | Author: mirzov <ihor.mirzov@idiada.cz>
+   | Date:   Wed Nov 20 09:12:15 2019 +0100
    | 
-   |     test installation
-   |  
-   * commit f061d99
-   | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
-   | Date:   Mon Nov 18 17:09:46 2019 +0100
-   | 
-   |     test installation
+   |     'Usage' headers added.
+   |    
+   *   commit b0de0d2
+   |\  Merge: af52aeb 1477585
+   | | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
+   | | Date:   Mon Nov 18 17:24:25 2019 +0100
+   | | 
+   | |     Merge /data/fem/users/siegl/eclipse/ansaTools/ansaChecksPlistUpdater
+   | |   
+   | * commit 1477585
+   | | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
+   | | Date:   Mon Nov 18 17:22:57 2019 +0100
+   | | 
+   | |     minor bug fix Python3 compatibility related..
+   | |   
+   * | commit af52aeb (tag: V.0.1.15)
+   | | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
+   | | Date:   Mon Nov 18 17:15:12 2019 +0100
+   | | 
+   | |     test installation
+   | |   
+   * | commit f061d99
+   |/  Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
+   |   Date:   Mon Nov 18 17:09:46 2019 +0100
+   |   
+   |       test installation
    |  
    * commit 5691391
    | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>

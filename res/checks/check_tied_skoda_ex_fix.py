@@ -6,9 +6,12 @@ Check TIEs for Skoda
 
 Check the TIE for entities names consistency.
 
-* Same name in hierarchy
+Usage
+-----
 
-  * Tied name - properties name - groups names
+Same name in hierarchy
+
+* Tied name - properties name - groups names
 
 '''
 

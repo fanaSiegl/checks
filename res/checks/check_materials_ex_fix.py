@@ -6,6 +6,11 @@ ABAQUS/PAMCRASH/NASTRAN check materials
 
 Check materials based matching list and name in properties name.
 
+Usage
+-----
+
+**Primary solver** - ABAQUS/PAMCRASH/NASTRAN.
+
 **User defined parameters**:
 
 - delimiter for part name of segment e.g. __
@@ -15,7 +20,6 @@ Check materials based matching list and name in properties name.
   in case of only one loadcase in matching list is appied just this
 - segment of material name e.g. 5
 - matching list - /data/fem/+software/SKODA_INCLUDE/white_list
-- solver can be ABAQUS/PAMCRASH/NASTRAN
 
 **Fix function** is available for some warnings.
 
