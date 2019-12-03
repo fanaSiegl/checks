@@ -1,17 +1,29 @@
 # PYTHON script
 
-import os
-from ansa import base
-from ansa import constants
-import re
+import os, ansa, re, getpass
+from ansa import base, constants
 from datetime import date
-import getpass
 
-# ==============================================================================
+
+
+DEBUG = False
+PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
+
+
+
+class CheckItem(check_base_items.BaseEntityCheckItem):
+	SOLVER_TYPE = constants.PAMCRASH
+	ENTITY_TYPES = ['GROUP']
+
+
 
 class include_comment:
+
 	def __init__(self):
 		self.entity = None
+
+
 	def add_comment_change(self, entity):
 		if entity:
 			include = base.GetEntityInclude(entity)
@@ -21,16 +33,16 @@ class include_comment:
 			field = {'Comment':'The include was changed: '+dat+'  - user:'+user}
 			include.set_entity_values(constants.PAMCRASH,field )
 
-# ==============================================================================
+
 
 class rbody_cls (base.Entity):
+
 	def __init__(self, id):
 		super().__init__( constants.PAMCRASH, id, 'GROUP')
 		self.part_name = " "
 		self.entities = list()
 		vals_group = ['Name']
 
-#-------------------------------------------------------------------------------------------------------
 
 	def get_content_of_group(self, group):
 		group_content = None
@@ -48,14 +60,14 @@ class rbody_cls (base.Entity):
 					break
 		self.group_content = group_content
 		self.type_group = type_group
-#-------------------------------------------------------------------------------------------------------
+
 
 	def realize(self):
 		group_name = self._name
 		self.mesh_group_content = list ()   #atribute for mesh group
 		self.combine_group_content = None    #atribute for mesh group
-		if 	'-' in group_name and 'Scr' in group_name and not('vs' in group_name):
 
+		if '-' in group_name and 'Scr' in group_name and not('vs' in group_name):
 			contain_group = self.get_content_of_group(self)   #extract combine group content
 			if self.type_group == "MESH GROUP":
 				self.mesh_group_content = None
@@ -70,18 +82,14 @@ class rbody_cls (base.Entity):
 				if type(c_g_c) != list():
 					c_g_c = [c_g_c]
 				for group in c_g_c:
-
 					contain_group = self.get_content_of_group(group)   #extract content of mesh group
-
 					mesh_component_id = self.get_entity_component_id(self.group_content, self.type_group, group)
 
 					# find the component ids for mesh group
 					self.mesh_group_content.append(mesh_component_id)
 
-#-------------------------------------------------------------------------------------------------------
 
 	def get_entity_component_id(self,entities, type_group,group):
-
 		groups = list()
 		entities_all_in_groups = list()
 		groups_all = list()
@@ -128,9 +136,7 @@ class rbody_cls (base.Entity):
 					if entity.ansa_type(constants.PAMCRASH) == 'CNODE':
 						i = i + 1
 					if entity.ansa_type(constants.PAMCRASH) != 'CNODE' or i== 1:
-
 						name = self.get_part_name_from_entity(entity)['part_name']
-
 						component_id = text_analyse.analyse(text=name,delimiter ='_',start = 'Part', end = 'screw_to',index = 1)
 						component_ids.append(component_id ['text_list'])
 						break
@@ -148,7 +154,6 @@ class rbody_cls (base.Entity):
 				component_id = " "
 			return {'component_id':component_id, 'groups':group}
 
-#-------------------------------------------------------------------------------------------------------
 
 	def get_part_name_from_shell(self,shells):
 		part_name = " "
@@ -156,7 +161,6 @@ class rbody_cls (base.Entity):
 		if shells:
 			if type(shells) is not list:
 				shells = [shells]
-
 			for shell in shells:
 				shell=shells[0]
 				vals = [ 'IPART']
@@ -214,9 +218,7 @@ class rbody_cls (base.Entity):
 					print('cnode: ', cn._id ,' - directy connected to reference shell:', from_cnode._id)
 					break
 
-			if flag_shell:
-				pass
-			else:
+			if not flag_shell:
 				print("cnode: ", entity._id ," without shell reference - will be try to find a close cnode entity ")
 				coords = (entity.position)
 				near_elem = base.NearElements(coordinates=coords, tolerance=1)
@@ -234,7 +236,7 @@ class rbody_cls (base.Entity):
 					list_lenghts = [list_lenghts]
 				min_lenght = min(list_lenghts)
 				index = list_lenghts.index(min_lenght)
-#				print('index', index)
+				# print('index', index)
 				if cnodes[index]:
 					cn = cnodes[index]
 					print('cnode: ', entity._id ,' - was found close cnode: ', cn._id)
@@ -308,11 +310,11 @@ class rbody_cls (base.Entity):
 							break
 
 		return part_return
-#-------------------------------------------------------------------------------------------------------
 
-# ==============================================================================
+
 
 class text_analyse:
+
 	def __init__(self):
 		self.text = " "
 
@@ -321,7 +323,7 @@ class text_analyse:
 		text_selection = list()
 		text_selection_special = list()
 		text_selection_special_inv = list()
-#		text_matix = kwargs['text'].split(kwargs['delimiter'])
+		# text_matix = kwargs['text'].split(kwargs['delimiter'])
 		text_matix = re.split(kwargs['delimiter'], kwargs['text'])
 		read = False
 		exclude = False
@@ -378,11 +380,10 @@ class text_analyse:
 					'special_list':text_selection_special,
 					'special_list_inv':text_selection_special_inv}
 
-# ==============================================================================
 
-def ExecCheckRBODY(entities, params):
 
-	to_report = []
+@check_base_items.safeExecute(CheckItem, 'An error occured during the exe procedure!')
+def exe(entities, params):
 	t1 = base.CheckReport('GROUP groups check - 1. wawe - COMBINE GROUP name - components number')
 	t2 = base.CheckReport('GROUP groups check - 2. wawe - Screw number in MESH GROUP name vs. COMBINE GROUP name')
 	t3 = base.CheckReport('GROUP groups check - 3. wawe - MESH GROUP name vs. COMBINE GROUP name')
@@ -398,9 +399,7 @@ def ExecCheckRBODY(entities, params):
 	t6.has_fix = False
 
 	if entities:
-		if not(type(entities) == list):
-			entities = [entities]
-		else:
+		if type(entities) == list:
 			for group in entities:
 				if base.IsEntityVisible(group) and 'Scr' in group._name and '-' in group._name:
 
@@ -429,7 +428,6 @@ def ExecCheckRBODY(entities, params):
 							group_mesh = mesh_component_id['groups']
 							groups.append(group_mesh)
 							groups_name.append(group_mesh._name)
-	#
 							id = ids[0]
 							ids_from_parts.append(id)
 
@@ -443,8 +441,7 @@ def ExecCheckRBODY(entities, params):
 						flag_5_level_error = True
 						flag_6_level_error = True
 
-	# component numbers from parts vs. combine group name
-
+						# component numbers from parts vs. combine group name
 						name_list = text_analyse.analyse (text=name_group , delimiter='_|-' , start='Scr' )
 						name_sort = sorted (name_list['text_list'][1:])
 						name_component_sort = sorted(ids_from_parts)
@@ -457,8 +454,7 @@ def ExecCheckRBODY(entities, params):
 							t1.add_issue (entities=[group] , status='Error' , description=name_info)
 							flag_1_level_error = False
 
-	# kontrola cisla scr v group - shoda mesh group a combine group
-
+						# kontrola cisla scr v group - shoda mesh group a combine group
 						if flag_1_level_error :
 							name_list = text_analyse.analyse(text=name_group,delimiter ='_|-',start = 'Scr',
 															special = 'Scr', special_inv = True)
@@ -476,8 +472,7 @@ def ExecCheckRBODY(entities, params):
 									t2.add_issue(entities = [group]+groups, status = 'Warning' , description = name_info)
 									flag_2_level_error = False
 
-	# kontrola jmen group - shoda mesh group a combine group
-
+						# kontrola jmen group - shoda mesh group a combine group
 						if flag_1_level_error and flag_2_level_error :
 							name_list = text_analyse.analyse (text=name_group , delimiter='_|-' , start='Scr' )
 							name_sort = sorted (name_list['text_list'][1:])
@@ -489,12 +484,12 @@ def ExecCheckRBODY(entities, params):
 									pass
 								else:
 									lenght = len (ids_from_parts)
-									name_info = 'Different name COMBINE GROUP : '+ str(name_list['text_list'][1:])+ \
+									name_info = 'Different name COMBINE GROUP: '+ str(name_list['text_list'][1:])+ \
 										'MESH GROUP:' + str(name_list_g ['text_list'][1:])
 									t3.add_issue (entities=[group]+[egroup] , status='Warning' , description=name_info)
 									flag_3_level_error = False
 
-	# kontrola jmen group - order of components
+						# kontrola jmen group - order of components
 						if flag_1_level_error and flag_2_level_error and flag_3_level_error :
 							name_list = text_analyse.analyse (text=name_group , delimiter='_|-' , start='Scr')
 							i = 0
@@ -511,7 +506,7 @@ def ExecCheckRBODY(entities, params):
 									flag_4_level_error = False
 								i = i + 1
 
-	# kontrola jmen RBODY
+						# kontrola jmen RBODY
 						if flag_1_level_error and flag_2_level_error and flag_3_level_error and flag_4_level_error:
 							ents = base.ReferenceEntities (group)
 							name_rbody = None
@@ -531,29 +526,31 @@ def ExecCheckRBODY(entities, params):
 														  description=name_info)
 											flag_5_level_error = False
 									else:
-										name_info = 'Missing reference RBODY : ' + name_group
+										name_info = 'Missing reference RBODY: ' + name_group
 										t5.add_issue (entities=[group] , status='Error' , description=name_info)
 										flag_5_level_error = False
 
 							if 	flag_5_level_error == True:
 								name_info = 'RBODY is OK: ' + name_group
 								t6.add_issue (entities=[group] , status='Warning' , description=name_info)
+		else:
+			entities = [entities]
 
-#########################################################################################################
-	to_report.append(t1)
-	to_report.append(t2)
-	to_report.append(t3)
-	to_report.append(t4)
-	to_report.append(t5)
-	to_report.append(t6)
-	return to_report
+	CheckItem.reports.append(t1)
+	CheckItem.reports.append(t2)
+	CheckItem.reports.append(t3)
+	CheckItem.reports.append(t4)
+	CheckItem.reports.append(t5)
+	CheckItem.reports.append(t6)
 
-# ==============================================================================
+	return CheckItem.reports
 
-def FixCheckRBODY(issues):
 
+
+@check_base_items.safeExecute(CheckItem, 'An error occured during the fix procedure!')
+def fix(issues):
 	for issue in issues:
-#		print(issue.has_fix)
+		# print(issue.has_fix)
 		problem_description = issue.description
 		ents = issue.entities
 		print(problem_description)
@@ -581,7 +578,6 @@ def FixCheckRBODY(issues):
 				ic.add_comment_change (group_combine)
 				issue.is_fixed = True
 				issue.update ()
-
 
 		if 'Missing reference RBODY' in problem_description:
 			success = None
@@ -639,9 +635,8 @@ def FixCheckRBODY(issues):
 				issue.is_fixed = True
 				issue.update ()
 
-#########  name COMBINE GROUP vs. MESH GROUP name
+		# name COMBINE GROUP vs. MESH GROUP name
 		if 'Different name COMBINE GROUP' in problem_description and 'MESH GROUP' in problem_description:
-
 			for e in ents:
 				if 'Scr' in e._name and '-' in e._name:
 					group_combine = e
@@ -649,10 +644,8 @@ def FixCheckRBODY(issues):
 					groups_mesh = e
 
 			name_list = text_analyse.analyse (text=group_combine._name , delimiter='_|-' , start='Scr')
-
 			name_list_c = name_list['text_list']
 			success = list ()
-
 			i = 0
 			new_group_name = ''
 			for conp in name_list_c:
@@ -671,7 +664,7 @@ def FixCheckRBODY(issues):
 				issue.is_fixed = True
 				issue.update ()
 
-#########  name order componets in  MESH GROUP name
+		# name order componets in MESH GROUP name
 		if 'the first component' in problem_description and 'MESH GROUP' in problem_description:
 			groups_mesh = ents[0]
 			name_list = text_analyse.analyse (text=groups_mesh._name , delimiter='_' , start='Scr', exclude='vs')
@@ -701,16 +694,16 @@ def FixCheckRBODY(issues):
 				issue.is_fixed = True
 				issue.update ()
 
-# ==============================================================================
 
-checkOptions = { 'name': 'Check RBODY Elements for NISSAN (PAM', 
-        'exec_action': ('ExecCheckRBODY', os.path.realpath(__file__)), 
-        'fix_action':  ('FixCheckRBODY', os.path.realpath(__file__)), 
-        'deck': constants.PAMCRASH, 
-        'requested_types': ['GROUP'], 
-        'info': 'Checks rbody Elements'}
 
+# Update this dictionary to load check automatically
+checkOptions = {'name': 'Check RBODY elements for NISSAN (PAM)',
+	'exec_action': ('exe', os.path.realpath(__file__)),
+	'fix_action': ('fix', os.path.realpath(__file__)),
+	'deck': CheckItem.SOLVER_TYPE,
+	'requested_types': CheckItem.ENTITY_TYPES,
+	'info': 'Checks RBODY elements'}
 checkDescription = base.CheckDescription(**checkOptions)
 
-# ==============================================================================
-				
+if __name__ == '__main__' and DEBUG:
+	check_base_items._debugModeTestFunction(CheckItem)

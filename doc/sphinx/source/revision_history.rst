@@ -4,7 +4,19 @@ Revision history
 
 Revision history graph::
     
-       * commit 475f517 (HEAD, tag: V.0.1.16, master)
+       * commit 78e00ef (HEAD, tag: V.0.1.15, master)
+   | Author: mirzov <ihor.mirzov@idiada.cz>
+   | Date:   Mon Dec 2 15:44:36 2019 +0100
+   | 
+   |     Apply safeExecute to all user checks
+   |  
+   * commit fa3e5b8 (tag: V.0.1.14)
+   | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
+   | Date:   Wed Nov 20 10:25:27 2019 +0100
+   | 
+   |     Usage headers added
+   |  
+   * commit 475f517
    | Author: mirzov <ihor.mirzov@idiada.cz>
    | Date:   Wed Nov 20 09:12:15 2019 +0100
    | 
@@ -23,7 +35,7 @@ Revision history graph::
    | | 
    | |     minor bug fix Python3 compatibility related..
    | |   
-   * | commit af52aeb (tag: V.0.1.15)
+   * | commit af52aeb
    | | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
    | | Date:   Mon Nov 18 17:15:12 2019 +0100
    | | 
@@ -51,7 +63,7 @@ Revision history graph::
    | |     Conflicts:
    | |     	res/checks/check_elem_gap.py
    | |   
-   | * commit 67422a7 (tag: V.0.1.14)
+   | * commit 67422a7
    | | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
    | | Date:   Mon Nov 18 15:35:25 2019 +0100
    | | 
