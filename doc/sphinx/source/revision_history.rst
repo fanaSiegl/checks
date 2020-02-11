@@ -4,11 +4,11 @@ Revision history
 
 Revision history graph::
     
-       * commit 78e00ef (HEAD, tag: V.0.1.15, master)
-   | Author: mirzov <ihor.mirzov@idiada.cz>
-   | Date:   Mon Dec 2 15:44:36 2019 +0100
+       * commit f66646b (HEAD, tag: V.0.1.15, master)
+   | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
+   | Date:   Tue Dec 3 15:25:49 2019 +0100
    | 
-   |     Apply safeExecute to all user checks
+   |     checks renamed - files added to repository under new names..
    |  
    * commit fa3e5b8 (tag: V.0.1.14)
    | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
