@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit f66646b (HEAD, tag: V.0.1.15, master)
+       * commit d3f0132 (HEAD, tag: V.0.1.16, master)
+   | Author: stekly <jan.stekly@idiada.cz>
+   | Date:   Tue Feb 11 14:13:34 2020 +0100
+   | 
+   |     added new check for quality of elements
+   |  
+   * commit f66646b (tag: V.0.1.15)
    | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
    | Date:   Tue Dec 3 15:25:49 2019 +0100
    | 

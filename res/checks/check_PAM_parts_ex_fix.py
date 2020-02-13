@@ -91,12 +91,11 @@ def exe(entities, params):
 
 		# Check of number of segments
 		if len(name_list) != int(params['Number of segments']):
-
 			t4.add_issue(entities = [part], status = 'Error', description = 'Wrong numer of segment')
+
 		else:
 			# Check of number of chars
 			if len(name) > int(params['Max. number of chars']):
-
 				t8.add_issue(entities = [part], status = 'Error',
 					description = 'The lenght is bigger then ' + str(params['Max. number of chars']))
 

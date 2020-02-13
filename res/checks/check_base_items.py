@@ -34,7 +34,7 @@ class IssueDefinition:
 
 class BaseEntityCheckItem:
 	reportNames = ['Dummy check name 1', 'Dummy check name 2']
-	reports = list()
+	reports = list() # of ansa.base.CheckReport types
 	AUTHOR = 'Jan.Stekly@idiada.cz, Frantisek.Siegl@idiada.cz, Ihor.Mirzov@idiada.cz'
 
 	def __init__(self, entity, params=[]):
@@ -78,7 +78,6 @@ class BaseEntityCheckItem:
 
 
 	def registerIssues(self, issueDefinitions):
-
 		for issueDefinition in issueDefinitions:
 			self.reports[issueDefinition.reportName].add_issue(**issueDefinition.attributes)
 
@@ -157,9 +156,12 @@ def safeExecute(entityCheckItem=None, message=''):
 	def baseWrap(fcn):
 		def wrappedFcn(*args, **kwargs):
 			try:
-				entityCheckItem.reports.extend(fcn(*args, **kwargs))
-			except Exception as e:
+				reports = fcn(*args, **kwargs)
 
+				# Next lines duplicates check errors list. Do not uncomment!
+				# entityCheckItem.reports.extend(reports)
+
+			except Exception as e:
 				# Prepare error message
 				msg = message + ' Please report Traceback to:\n' +\
 					entityCheckItem.AUTHOR + '\n\n' + format_exc()
