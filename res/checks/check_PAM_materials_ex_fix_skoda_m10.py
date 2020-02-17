@@ -28,23 +28,28 @@ Usage
 import os, ansa
 from ansa import base, constants
 
+# ==============================================================================
 
+DEBUG = 0
 
-DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 
+ansa.ImportCode(os.path.join(PATH_SELF, 'check_PAM_materials_ex_fix.py'))
+exe = check_PAM_materials_ex_fix.exe
+fix = check_PAM_materials_ex_fix.fix
 
+# ==============================================================================
 
 class CheckItem(check_base_items.BaseEntityCheckItem):
 	SOLVER_TYPE = constants.PAMCRASH
 	ENTITY_TYPES = ['SHELL', 'MEMBRANE', 'SOLID']
 
-
-
-ansa.ImportCode(os.path.join(PATH_SELF, 'check_PAM_materials_ex_fix.py'))
-exe = check_PAM_materials_ex_fix.exe
-fix = check_PAM_materials_ex_fix.fix
+# ==============================================================================
 
 # Update this dictionary to load check automatically
 checkOptions = {'name': 'Check materials with a checking list (ABA/PAM/NAS) - SKODA: -10',
@@ -63,5 +68,18 @@ checkDescription.add_str_param('Solver', 'PAMCRASH')
 checkDescription.add_str_param('Matching list', '/data/fem/+software/SKODA_INCLUDE/white_list_bumpers_SK316')
 checkDescription.add_str_param('Delimiter for part name', '__')
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-	check_base_items._debugModeTestFunction(CheckItem)
+	
+	testParams = {
+		'Number of segments': '5',
+		'Segment of material name': '5',
+		'Type of loadcase': 'SK3165_-10',
+		'Solver': 'PAMCRASH',
+		'Matching list': '/data/fem/+software/SKODA_INCLUDE/white_list_bumpers_SK316',
+		'Delimiter for part name': '__'}
+
+	check_base_items.debugModeTestFunction(CheckItem, testParams)
+
+# ==============================================================================

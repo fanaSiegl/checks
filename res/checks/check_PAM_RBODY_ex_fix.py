@@ -5,18 +5,24 @@ from ansa import base, constants
 from datetime import date
 
 
+# ==============================================================================
 
-DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+DEBUG = 0
+
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 
-
+# ==============================================================================
 
 class CheckItem(check_base_items.BaseEntityCheckItem):
 	SOLVER_TYPE = constants.PAMCRASH
 	ENTITY_TYPES = ['GROUP']
 
-
+# ==============================================================================
 
 class include_comment:
 
@@ -33,7 +39,7 @@ class include_comment:
 			field = {'Comment':'The include was changed: '+dat+'  - user:'+user}
 			include.set_entity_values(constants.PAMCRASH,field )
 
-
+# ==============================================================================
 
 class rbody_cls (base.Entity):
 
@@ -311,7 +317,7 @@ class rbody_cls (base.Entity):
 
 		return part_return
 
-
+# ==============================================================================
 
 class text_analyse:
 
@@ -381,7 +387,7 @@ class text_analyse:
 					'special_list_inv':text_selection_special_inv}
 
 
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the exe procedure!')
 def exe(entities, params):
 	t1 = base.CheckReport('GROUP groups check - 1. wawe - COMBINE GROUP name - components number')
@@ -536,17 +542,9 @@ def exe(entities, params):
 		else:
 			entities = [entities]
 
-	CheckItem.reports.append(t1)
-	CheckItem.reports.append(t2)
-	CheckItem.reports.append(t3)
-	CheckItem.reports.append(t4)
-	CheckItem.reports.append(t5)
-	CheckItem.reports.append(t6)
+	return [t1, t2, t3, t4, t5, t6]
 
-	return CheckItem.reports
-
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the fix procedure!')
 def fix(issues):
 	for issue in issues:
@@ -694,7 +692,7 @@ def fix(issues):
 				issue.is_fixed = True
 				issue.update ()
 
-
+# ============== this "checkDescription" is crucial for loading this check into ANSA! =========================
 
 # Update this dictionary to load check automatically
 checkOptions = {'name': 'Check RBODY elements for NISSAN (PAM)',
@@ -705,5 +703,10 @@ checkOptions = {'name': 'Check RBODY elements for NISSAN (PAM)',
 	'info': 'Checks RBODY elements'}
 checkDescription = base.CheckDescription(**checkOptions)
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-	check_base_items._debugModeTestFunction(CheckItem)
+	
+	check_base_items.debugModeTestFunction(CheckItem)
+
+# ==============================================================================

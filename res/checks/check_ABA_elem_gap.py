@@ -22,19 +22,24 @@ import os, ansa
 import numpy as np
 from ansa import base, constants, calc
 
+# ==============================================================================
 
+DEBUG = 0
 
-DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 
-
+# ==============================================================================
 
 class CheckItem(check_base_items.BaseEntityCheckItem):
 	SOLVER_TYPE = constants.ABAQUS
 	ENTITY_TYPES = ['GAP']
 
-
+# ==============================================================================
 
 class CheckedGap:
 
@@ -43,8 +48,8 @@ class CheckedGap:
 		self.checkReportTable = checkReportTable
 		self.findProjection()
 
-
-
+	#-------------------------------------------------------------------------
+	
 	def findProjection(self):
 		self.attributes =  self.getEntityAttributes(self.gapEntity, 'GAP')
 		self.property = base.GetEntity(constants.ABAQUS, 'GAP_PROP', self.attributes['PID'])
@@ -59,7 +64,7 @@ class CheckedGap:
 
 		self.projection = ansa.calc.DotProduct(vectorNodes, vectorDirectionNorm)
 
-
+	#-------------------------------------------------------------------------
 
 	def check(self):
 		if self.projection < 0:
@@ -67,21 +72,20 @@ class CheckedGap:
 			self.checkReportTable.add_issue(entities=[self.gapEntity], status="error" , description=descriptions,
 				has_fix=True)
 
-
+	#-------------------------------------------------------------------------
 
 	def getEntityAttributes(self, entity, type):
 		fields = base.GetKeywordFieldLabels(constants.ABAQUS, type)
 		return base.GetEntityCardValues(constants.ABAQUS, entity, fields)
 
-
+	#-------------------------------------------------------------------------
 
 	def getNodePosition(self, nodeId):
 		node = base.GetEntity(constants.ABAQUS, 'NODE', nodeId)
 		vals = base.GetEntityCardValues(constants.ABAQUS, node, ['X', 'Y', 'Z'])
 		return vals['X'], vals['Y'], vals['Z']
 
-
-
+	#-------------------------------------------------------------------------
 	@classmethod
 	def fixGapNodeDefinitionOrder(cls, issue):
 		gaps = issue.entities
@@ -96,8 +100,7 @@ class CheckedGap:
 			if gapItem.projection > 0:
 				issue.status = 'ok'
 
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the exe procedure!')
 def exe(entities, params):
 	checkReportTable = base.CheckReport('Check GAP Penetrations')
@@ -113,7 +116,7 @@ def exe(entities, params):
 	return [checkReportTable]
 
 
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the fix procedure!')
 def fix(issues):
 	for issue in issues:
@@ -121,7 +124,7 @@ def fix(issues):
 			CheckedGap.fixGapNodeDefinitionOrder(issue)
 			issue.update()
 
-
+# ============== this "checkDescription" is crucial for loading this check into ANSA! =========================
 
 # Update this dictionary to load check automatically
 checkOptions = {'name': 'Check GAP penetrations (ABA)',
@@ -132,20 +135,10 @@ checkOptions = {'name': 'Check GAP penetrations (ABA)',
 	'info': 'Check GAP elements - penetration'}
 checkDescription = base.CheckDescription(**checkOptions)
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-	check_base_items._debugModeTestFunction(CheckItem) # TODO compare it with the code below
+	
+	check_base_items.debugModeTestFunction(CheckItem)
 
-	gaps = base.PickEntities(CheckItem.SOLVER_TYPE, CheckItem.ENTITY_TYPES)
-	checkReportTable = base.CheckReport(checkOptions['name'])
-
-	for gap in gaps:
-		checkedGap = CheckedGap(gap, checkReportTable)
-		checkedGap.check()
-
-	for issue in checkReportTable.issues:
-		print(issue.status, issue.description)
-		if issue.has_fix:
-			print('Trying to fix...')
-			CheckedGap.fixGapNodeDefinitionOrder(issue)
-			issue.update()
-			print('Fix status:', issue.status)
+# ==============================================================================

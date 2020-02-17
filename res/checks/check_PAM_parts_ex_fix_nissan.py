@@ -26,23 +26,28 @@ Check parts for the following rules:
 import os, ansa
 from ansa import base, constants
 
+# ==============================================================================
 
+DEBUG = 0
 
-DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
-
-
-
-class CheckItem(check_base_items.BaseEntityCheckItem):
-	SOLVER_TYPE = constants.PAMCRASH
-	ENTITY_TYPES = ['SHELL', 'MEMBRANE', 'SOLID']
-
-
 
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_PAM_parts_ex_fix.py'))
 exe = check_PAM_parts_ex_fix.exe
 fix = check_PAM_parts_ex_fix.fix
+
+# ==============================================================================
+
+class CheckItem(check_base_items.BaseEntityCheckItem):
+	SOLVER_TYPE = constants.PAMCRASH
+	ENTITY_TYPES = ['SHELL', 'MEMBRANE', 'SOLID']
+	
+# ==============================================================================
 
 # Update this dictionary to load check automatically
 checkOptions = {'name': 'Check parts for NISSAN (ABA/PAM)',
@@ -63,5 +68,19 @@ checkDescription.add_str_param('Thickness by part name check', 'YES')
 checkDescription.add_str_param('Solver', 'PAMCRASH')
 checkDescription.add_str_param('Delimiter for part name', '__')
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-	check_base_items._debugModeTestFunction(CheckItem)
+	
+	testParams = {
+		'Number of segments': '4',
+		'Segment of thickness name': '3',
+		'Number of digits for thickness': '1',
+		'Max. number of chars': '80',
+		'Contact thickness check': 'NO',
+		'Thickness by part name check': 'YES',
+		'Solver': 'PAMCRASH',
+		'Delimiter for part name': '__'}
+	check_base_items.debugModeTestFunction(CheckItem, testParams)
+
+# ==============================================================================

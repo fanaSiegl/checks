@@ -20,27 +20,33 @@ Usage
 import os, ansa
 from ansa import base, constants, calc
 
-
+# ==============================================================================
 
 DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
+	
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 
-
+# ==============================================================================
 
 class CheckItem(check_base_items.BaseEntityCheckItem):
 	SOLVER_TYPE = constants.ABAQUS
 	ENTITY_TYPES = ['CONNECTOR']
 
-
+# ==============================================================================
 
 class entity_cls(base.Entity):
 
 	def __init__(self, id, type_check):
 		super().__init__( constants.ABAQUS, id, type_check)
 
-
-
+	#-------------------------------------------------------------------------
+	
 	def check(self,params):
 		fieldConnector = ['G1','G2']
 		dict_node = self.get_entity_values(constants.ABAQUS, fieldConnector)
@@ -83,8 +89,7 @@ class entity_cls(base.Entity):
 
 		return status, status_lenght
 
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the exe procedure!')
 def exe(entities, params):
 	t = base.CheckReport('Element check' + params['type_check'])
@@ -105,10 +110,13 @@ def exe(entities, params):
 				if status_lenght != '':
 					descriptions = status_lenght
 					t.add_issue(entities=ent, status="Warning" , description=descriptions)
-	CheckItem.reports.append(t)
-	return CheckItem.reports
 
+	return [t]
 
+@check_base_items.safeExecute(CheckItem, 'An error occured during the fix procedure!')
+def fix(issues): pass
+	
+# ============== this "checkDescription" is crucial for loading this check into ANSA! =========================
 
 # Update this dictionary to load check automatically
 checkOptions = {'name': 'Check CONNECTOR section elements (ABA)',
@@ -122,5 +130,9 @@ checkDescription = base.CheckDescription(**checkOptions)
 # Add parameter
 checkDescription.add_str_param('type_check', 'CONNECTOR')
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-	check_base_items._debugModeTestFunction(CheckItem)
+	
+	testParams = {'type_check' : 'CONNECTOR'}
+	check_base_items.debugModeTestFunction(CheckItem, testParams)

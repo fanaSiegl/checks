@@ -28,20 +28,24 @@ Usage
 import os, ansa
 from ansa import base, constants, guitk, utils
 
+# ==============================================================================
 
+DEBUG = 0
 
-DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 
-
+# ==============================================================================
 
 class CheckItem(check_base_items.BaseEntityCheckItem):
 	SOLVER_TYPE = constants.PAMCRASH
 	ENTITY_TYPES = ['SHELL', 'MEMBRANE', 'SOLID']
 
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the exe procedure!')
 def exe(entities, params):
 	file = params['Matching list']
@@ -166,19 +170,16 @@ def exe(entities, params):
 			# Wrong numer of segments
 			t2.add_issue(entities = [part], status = 'Error', description = 'Wrong numer of segments')
 
-	CheckItem.reports.append(t1)
-	CheckItem.reports.append(t2)
-	CheckItem.reports.append(t3)
-	return CheckItem.reports
+	return [t1, t2, t3]
 
-
+# ==============================================================================
 
 def ComboActivated(combo, index, data):
 	global loadcase_choose
 	loadcase_choose = guitk.BCComboBoxGetText( combo, index )
 	return 0
 
-
+# ==============================================================================
 
 # Reading the configuration file
 def read_configuration_file(file):
@@ -230,8 +231,7 @@ def read_configuration_file(file):
 	f.close()
 	return configuration_line,configuration_line_short, list_of_loadcases
 
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the fix procedure!')
 def fix(issues):
 	for issue in issues:
@@ -246,7 +246,7 @@ def fix(issues):
 			if success == 0:
 				issue.is_fixed = True
 
-
+# ==============================================================================
 
 # Update this dictionary to load check automatically
 checkOptions = {'name': 'Check materials with a checking list (ABA/PAM/NAS)',
@@ -265,24 +265,19 @@ checkDescription.add_str_param('Solver', 'PAMCRASH')
 checkDescription.add_str_param('Matching list', '/data/fem/+software/SKODA_INCLUDE/white_list')
 checkDescription.add_str_param('Delimiter for part name', '__')
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-	check_base_items._debugModeTestFunction(CheckItem)
-
-
-
-def test():
-	entities = base.CollectEntities(constants.PAMCRASH, None, "__MATERIALS__")
-	params = {
+	
+	testParams = {
 		'Delimiter for part name': '__',
 		'Matching list'	: '/data/fem/users/siegl/eclipse/ansaTools/ansaChecksPlistUpdater/res/test_files/white_list',
 		'Solver'		:	'PAMCRASH',
 		'Type of loadcase': 'SK3165_+65',
 		'Segment of material name': '5',
 		'Number of segments': '5'}
+	entities = base.CollectEntities(constants.PAMCRASH, None, "__MATERIALS__")
+	
+	check_base_items.debugModeTestFunction(CheckItem, testParams, entities=entities)
 
-	report = ExecCheckMaterials(entities, params)
-
-	for i in report:
-		print(i.status, i.description, i.entities)#, i.issues)
-		for issue in i.issues:
-			print('\t' + str(issue.entities))
+# ==============================================================================

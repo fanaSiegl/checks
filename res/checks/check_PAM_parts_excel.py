@@ -34,20 +34,24 @@ Usage
 import os, ansa
 from ansa import base, constants, utils, session
 
+# ==============================================================================
 
+DEBUG = 0
 
-DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 
-
+# ==============================================================================
 
 class CheckItem(check_base_items.BaseEntityCheckItem):
 	SOLVER_TYPE = constants.PAMCRASH
 	ENTITY_TYPES = ['SHELL', 'MEMBRANE', 'SOLID']
 
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the exe procedure!')
 def exe(entities, params):
 	solver = params['Solver']
@@ -285,8 +289,7 @@ def exe(entities, params):
 
 	return CheckItem.reports
 
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the fix procedure!')
 def fix(issues):
 	for issue in issues:
@@ -301,7 +304,7 @@ def fix(issues):
 			if success == 0:
 				issue.is_fixed = True
 
-
+# ==============================================================================
 
 # Update this dictionary to load check automatically
 checkOptions = {'name': 'Check parts by xlsx file (PAM)',
@@ -327,5 +330,25 @@ checkDescription.add_str_param('Excel thickness name identifier', 't [mm]')
 checkDescription.add_str_param('Solver', 'PAMCRASH')
 checkDescription.add_str_param('Delimiter for part name', '__')
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-	check_base_items._debugModeTestFunction(CheckItem)
+	
+	testParams = {
+		'Segment of part name': '1',
+		'Segment of material name': '2',
+		'Segment of thickness name': '3',
+		'Number of segments': '4',
+		'Thickness by part name check': 'YES',
+		'Material by part name check': 'YES',
+		'Excel sheet name': 'BCC18FU_Var_B_Cost',
+		'Excel part name identifier': 'Component',
+		'Excel part number name identifier': 'P/N',
+		'Excel material name identifier': 'Material',
+		'Excel thickness name identifier': 't [mm]',
+		'Solver': 'PAMCRASH',
+		'Delimiter for part name': '__'
+		}
+	check_base_items.debugModeTestFunction(CheckItem, testParams)
+
+# ==============================================================================

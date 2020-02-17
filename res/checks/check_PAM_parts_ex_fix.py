@@ -29,20 +29,24 @@ Check parts for the following rules:
 import os, ansa
 from ansa import base, constants, session
 
+# ==============================================================================
 
+DEBUG = 0
 
-DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 
-
+# ==============================================================================
 
 class CheckItem(check_base_items.BaseEntityCheckItem):
 	SOLVER_TYPE = constants.PAMCRASH
 	ENTITY_TYPES = ['SHELL', 'MEMBRANE', 'SOLID']
 
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the exe procedure!')
 def exe(entities, params):
 
@@ -186,19 +190,13 @@ def exe(entities, params):
 							c_thickness_suggest='3',
 							__key=c_thickness,
 							__solver=str(solver))
-	CheckItem.reports.append(t4)
-	CheckItem.reports.append(t5)
-	CheckItem.reports.append(t6)
-	CheckItem.reports.append(t7)
-	CheckItem.reports.append(t8)
 
 	# TODO OSError: [Errno5] Input/output error - can't fix
 	print('Properties check for PAMCRASH - SKODA. Number of errors:',
 		len(t4.issues) + len(t5.issues) + len(t7.issues))
-	return CheckItem.reports
+	return [t4, t5, t6, t7, t8]
 
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the fix procedure!')
 def fix(issues):
 
@@ -214,7 +212,7 @@ def fix(issues):
 			if success == 0:
 				issue.is_fixed = True
 
-
+# ==============================================================================
 
 # Update this dictionary to load check automatically
 checkOptions = {'name': 'Check parts for SKODA/NISSAN (ABA/PAM)',
@@ -235,5 +233,19 @@ checkDescription.add_str_param('Thickness by part name check', 'YES')
 checkDescription.add_str_param('Solver', 'PAMCRASH')
 checkDescription.add_str_param('Delimiter for part name', '__')
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-	check_base_items._debugModeTestFunction(CheckItem)
+	
+	testParams = {
+		'Number of segments': '5',
+		'Segment of thickness name': '2',
+		'Number of digits for thickness': '1',
+		'Max. number of chars': '80',
+		'Contact thickness check': 'YES',
+		'Thickness by part name check': 'YES',
+		'Solver': 'PAMCRASH',
+		'Delimiter for part name': '__'}
+	check_base_items.debugModeTestFunction(CheckItem, testParams)
+
+# ==============================================================================

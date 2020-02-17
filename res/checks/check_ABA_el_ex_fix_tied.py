@@ -20,19 +20,24 @@ POS_TOLER, DISTANCE=5, TYPE_tie_coefficients=SURFACE TO SURFACE, ADJUST=NO
 import os, re, ansa
 from ansa import base, constants
 
-
+# ==============================================================================
 
 DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 
-
+# ==============================================================================
 
 class CheckItem(check_base_items.BaseEntityCheckItem):
 	SOLVER_TYPE = constants.ABAQUS
 	ENTITY_TYPES = ['TIE']
 
-
+# ==============================================================================
 
 class entity_cls (base.Entity):
 
@@ -162,7 +167,7 @@ class entity_cls (base.Entity):
 		return status, number
 
 
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the exe procedure!')
 def exe(entities, params):
 	t = base.CheckReport('Element check' + params['type_check'])
@@ -187,11 +192,9 @@ def exe(entities, params):
 				if descriptions != '':
 					t.add_issue(entities=ent, status="Warning" , description=descriptions, param_to_fix = str(params_out))
 
-	CheckItem.reports.append(t)
-	return CheckItem.reports
+	return [t]
 
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the fix procedure!')
 def fix(issues):
 	print('Fixed')
@@ -212,7 +215,7 @@ def fix(issues):
 			if success == 0:
 				issue.is_fixed = True
 
-
+# ============== this "checkDescription" is crucial for loading this check into ANSA! =========================
 
 # Update this dictionary to load check automatically
 checkOptions = {'name': 'Check TIEDs (ABA)',
@@ -230,5 +233,14 @@ checkDescription.add_str_param('DISTANCE', '==5')
 checkDescription.add_str_param('TYPE_tie_coefficients', 'SURFACE TO SURFACE')
 checkDescription.add_str_param('ADJUST', 'NO')
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-	check_base_items._debugModeTestFunction(CheckItem)
+	
+	testParams = {
+		'type_check': 'TIE',
+		'PARAM' : 'POS_TOLER',
+		'DISTANCE' : '==5',
+		'TYPE_tie_coefficients' : 'SURFACE TO SURFACE',
+		'ADJUST': 'NO'}
+	check_base_items.debugModeTestFunction(CheckItem, testParams)

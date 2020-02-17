@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit d3f0132 (HEAD, tag: V.0.1.16, master)
+       * commit 783ff2e (HEAD, tag: V.0.1.17, master)
+   | Author: mirzov <ihor.mirzov@idiada.cz>
+   | Date:   Thu Feb 13 16:27:39 2020 +0100
+   | 
+   |     Fixed double reporting
+   |  
+   * commit d3f0132 (tag: V.0.1.16)
    | Author: stekly <jan.stekly@idiada.cz>
    | Date:   Tue Feb 11 14:13:34 2020 +0100
    | 

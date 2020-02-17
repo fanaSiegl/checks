@@ -18,19 +18,24 @@ Same name in hierarchy
 import os, ansa
 from ansa import base, constants
 
+# ==============================================================================
 
+DEBUG = 0
 
-DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 
-
+# ==============================================================================
 
 class CheckItem(check_base_items.BaseEntityCheckItem):
 	SOLVER_TYPE = constants.PAMCRASH
 	ENTITY_TYPES = ['CNTAC']
 
-
+# ==============================================================================
 
 class tied_cls(base.Entity):
 	def __init__(self, id):
@@ -91,8 +96,7 @@ class tied_cls(base.Entity):
 		self.suggest_part_tied_name =  ' xxx_xxx_xxx__xxx__' + \
 			self.tied_name + '__xx_xx_xxx__TIED'
 
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the exec procedure!')
 def exe(entities, params):
 	part_duplicity = {}
@@ -150,16 +154,9 @@ def exe(entities, params):
 		  t5.add_issue(entities = [var], status = 'Error',
 			  description = 'Assigning of parts is duplicated ' + str(part_duplicity[var]) + 'x')
 
-	CheckItem.reports.append(t5)
-	CheckItem.reports.append(t1)
-	CheckItem.reports.append(t2)
-	CheckItem.reports.append(t3)
-	CheckItem.reports.append(t4)
+	return [t5, t1, t2, t2, t4]
 
-	return CheckItem.reports
-
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the fix procedure!')
 def fix(issues):
 	for issue in issues:
@@ -177,7 +174,7 @@ def fix(issues):
 				print ('The name was fixed' + issue.suggest_name)
 				issue.is_fixed = True
 
-
+# ==============================================================================
 
 # Update this dictionary in order to load this check automatically!
 checkOptions = {'name': 'Check TIEDs for SKODA (PAM)',
@@ -191,5 +188,12 @@ checkDescription = base.CheckDescription(**checkOptions) # load check into ANSA
 # Add parameter
 checkDescription.add_str_param('Include prefix', 'FEN')
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-	check_base_items._debugModeTestFunction(CheckItem)
+	
+	testParams = {
+		'Include prefix': 'FEN'}
+	check_base_items.debugModeTestFunction(CheckItem, testParams)
+
+# ==============================================================================

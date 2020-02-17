@@ -19,19 +19,24 @@ Usage
 import os, ansa
 from ansa import base, constants
 
-
+# ==============================================================================
 
 DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 
-
+# ==============================================================================
 
 class CheckItem(check_base_items.BaseEntityCheckItem):
 	SOLVER_TYPE = constants.ABAQUS
 	ENTITY_TYPES = ['CONTACT_PAIR']
 
-
+# ==============================================================================
 
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_ABA_el_ex_fix_tied.py'))
 exe = check_ABA_el_ex_fix_tied.exe
@@ -54,5 +59,16 @@ checkDescription.add_str_param('POS_VAL', '>=0.0')
 checkDescription.add_str_param('IF-NOT-CHECK VALUE', '>=0.0')
 checkDescription.add_str_param('IF-CHECK TYPE', 'CONTACT PAIR')
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-	check_base_items._debugModeTestFunction(CheckItem)
+	
+	testParams = {
+		'type_check': 'BEAM_SECTION',
+		'INTERACTION' : '>=1.0',
+		'ADJUST' : 'POS_VAL',
+		'POS_VAL' : '>=0.0',
+		'IF-NOT-CHECK VALUE' : '>=0.0',
+		'IF-CHECK TYPE' : 'CONTACT PAIR'
+		}
+	check_base_items.debugModeTestFunction(CheckItem, testParams)

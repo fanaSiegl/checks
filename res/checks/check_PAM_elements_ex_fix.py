@@ -19,18 +19,24 @@ import os, ansa
 from ansa import base, constants
 
 
+# ==============================================================================
 
-DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+DEBUG = 0
+
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 
-
+# ==============================================================================
 
 class CheckItem(check_base_items.BaseEntityCheckItem):
 	SOLVER_TYPE = constants.PAMCRASH
 	ENTITY_TYPES = ['SHELL', 'MEMBRANE']
 
-
+# ==============================================================================
 
 def evaluate_percents(text, total_len, current_len):
 	st_list = ['OK', 'Warning','Error' ]
@@ -78,7 +84,7 @@ def evaluate_percents(text, total_len, current_len):
 	return ret
 
 
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the exe procedure!')
 def exe(entities, params):
 	i = 0
@@ -173,14 +179,11 @@ def exe(entities, params):
 			t2.add_issue(entities = h[it], status = u[2], description = name_info)
 		elif "new" in it:
 			t3.add_issue(entities = h[it], status = u[2], description = name_info)
-	CheckItem.reports.append(t1)
-	CheckItem.reports.append(t2)
-	CheckItem.reports.append(t3)
 
-	return CheckItem.reports
+	return [t1, t2, t3]
 
 
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the fix procedure!')
 def fix(issues):
 	base.All()
@@ -191,7 +194,7 @@ def fix(issues):
 		problem_description = issue.description
 		ents = issue.entities
 
-
+# ============== this "checkDescription" is crucial for loading this check into ANSA! =========================
 
 # Update this dictionary to load check automatically
 checkOptions = {'name': 'Check quality of shell elements for NISSAN (PAM)',
@@ -214,5 +217,22 @@ checkDescription.add_str_param('LEN 12 - new ', '4.0-4.5,5.5-6:<=10')
 checkDescription.add_str_param('LEN 13 - new - glue', '4.5-5.5:>=70')
 checkDescription.add_str_param('LEN 14 - new - glue', '3.5-4.5,5.5-6:<=30')
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-	check_base_items._debugModeTestFunction(CheckItem)
+	
+	testParams = {
+	'LEN 1 - old ': '4.0-4.5,5.5-6:<=5',
+	'LEN 2 - old ': '4.5-4.8,5.2-5.5:<=20',
+	'LEN 3 - old ': '4.8-5.2:>=75',
+	'LEN 4 - old ': '0-0.1,5.5-100:==0',
+	'LEN 5 - old ': '0-4.5,100-101:==0',
+	'LEN 10 - new ': '4.8-5.2:>=60',
+	'LEN 11 - new ': '4.5-4.8,5.2-5.5:<=30',
+	'LEN 12 - new ': '4.0-4.5,5.5-6:<=10',
+	'LEN 13 - new - glue': '4.5-5.5:>=70',
+	'LEN 14 - new - glue': '3.5-4.5,5.5-6:<=30'}
+	
+	check_base_items.debugModeTestFunction(CheckItem)
+
+# ==============================================================================

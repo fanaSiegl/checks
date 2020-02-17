@@ -5,18 +5,24 @@ from ansa import base, constants
 from datetime import date
 
 
+# ==============================================================================
 
-DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+DEBUG = 0
+
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 
-
+# ==============================================================================
 
 class CheckItem(check_base_items.BaseEntityCheckItem):
 	SOLVER_TYPE = constants.PAMCRASH
 	ENTITY_TYPES = ['CNTAC']
 
-
+# ==============================================================================
 
 class include_comment:
 
@@ -35,7 +41,7 @@ class include_comment:
 				include.set_entity_values(constants.PAMCRASH,field )
 			return 1
 
-
+# ==============================================================================
 
 class text_analyse:
 
@@ -105,7 +111,7 @@ class text_analyse:
 					'special_list':text_selection_special,
 					'special_list_inv':text_selection_special_inv}
 
-
+# ==============================================================================
 
 class tied_cls (base.Entity):
 
@@ -225,7 +231,8 @@ class tied_cls (base.Entity):
 				self.part_slave_h = 0
 				self.part_slave_name = " "
 
-
+	#-------------------------------------------------------------------------
+	
 	def get_component_ids(self):
 		self.master_name_id_group =text_analyse.analyse(
 			text=self.group_master_name,
@@ -318,7 +325,8 @@ class tied_cls (base.Entity):
 			exclude = 'vs',
 			index = 2)
 
-
+	#-------------------------------------------------------------------------
+	
 	def thickness_from_mat(self, mat):
 		no_of_ply = mat.get_entity_values(constants.PAMCRASH,['NOPER'])
 		field = list()
@@ -332,8 +340,7 @@ class tied_cls (base.Entity):
 
 		return h_sum
 
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the exe procedure!')
 def exe(entities, params):
 	t0 = base.CheckReport('Tied check - 1. wave - master and slave roles')
@@ -520,17 +527,9 @@ def exe(entities, params):
 						if not(flag_3_level_error):
 							t3.add_issue(entities = tie, status = status_groups , description = name_info)
 
-	CheckItem.reports.append(t0)
-	CheckItem.reports.append(t1)
-	CheckItem.reports.append(t2)
-	CheckItem.reports.append(t3)
-	CheckItem.reports.append(t4)
-	CheckItem.reports.append(t5)
-	CheckItem.reports.append(t100)
-	return CheckItem.reports
+	return [t0, t1, t2, t3, t4, t5, t100]
 
-
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the fix procedure!')
 def fix(issues):
 
@@ -650,7 +649,7 @@ def fix(issues):
 				issue.is_fixed = True
 				issue.update ()
 
-
+# ==============================================================================
 
 # Update this dictionary to load check automatically
 checkOptions = {'name': 'Check TIEDs for NISSAN (PAM)',
@@ -661,5 +660,10 @@ checkOptions = {'name': 'Check TIEDs for NISSAN (PAM)',
 	'info': 'Checks TIEDs'}
 checkDescription = base.CheckDescription(**checkOptions)
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-	check_base_items._debugModeTestFunction(CheckItem)
+	
+	check_base_items.debugModeTestFunction(CheckItem)
+
+# ==============================================================================

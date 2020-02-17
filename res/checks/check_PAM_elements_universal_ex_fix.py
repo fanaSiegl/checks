@@ -21,20 +21,26 @@ Usage
 import os, time, ansa
 from ansa import base, constants, mesh
 
-
+# ==============================================================================
 
 DEBUG = False
-PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+
+if DEBUG:
+	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+#	PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+else:
+	PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
+
 ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 
-
+# ==============================================================================
 
 class CheckItem(check_base_items.BaseEntityCheckItem):
     SOLVER_TYPE = constants.PAMCRASH
     ENTITY_TYPES = ['SHELL', 'MEMBRANE', 'SOLID']
     CHECK_TYPE = ['SKODA', 'DAIMLER', 'AUDI', 'SEAT']
 
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the exe procedure!')
 def exe(entities, params):
     t0 = time.time()
@@ -324,18 +330,20 @@ def exe(entities, params):
     print('End of execution of the check: ')
     print(t5 - t0)
 
-    for key, val in t.items():
-        CheckItem.reports.append(val)
-        print()
-    return CheckItem.reports
+#    for key, val in t.items():
+#        CheckItem.reports.append(val)
+#        print()
+#    return CheckItem.reports
+    
+    return t.values()
 
-
+# ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the fix procedure!')
 def fix(issues):
     base.All()
     base.Invert()
 
-
+# ============== this "checkDescription" is crucial for loading this check into ANSA! =========================
 
 # Update this dictionary to load check automatically
 checkOptions = {'name': 'Check quality of elements (ABA/PAM/LSDYNA)',
@@ -355,5 +363,18 @@ checkDescription.add_str_param('Detail list for number of errors', '100')
 checkDescription.add_str_param('Quality mesh file', '/data/fem/+software/NAVODKY/Navodky_SKODA/batch_mesh_sessions_quality/plast_5mm/Plast_5mm.ansa_qual')
 checkDescription.add_str_param('Solver', 'PAMCRASH')
 
+# ==============================================================================
+
 if __name__ == '__main__' and DEBUG:
-    check_base_items._debugModeTestFunction(CheckItem)
+	
+	testParams = {
+		'THICKNESS FACTOR': '1.1',
+		'SKEW,TRIA': '60.0',
+		'SKEW,QUAD': '48.0',
+		'Type of check': 'SKODA',
+		'Detail list for number of errors': '100',
+		'Quality mesh file': '/data/fem/+software/NAVODKY/Navodky_SKODA/batch_mesh_sessions_quality/plast_5mm/Plast_5mm.ansa_qual',
+		'Solver': 'PAMCRASH'}
+	check_base_items.debugModeTestFunction(CheckItem, testParams)
+
+# ==============================================================================
