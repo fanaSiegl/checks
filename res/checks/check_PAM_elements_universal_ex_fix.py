@@ -13,17 +13,15 @@ Usage
 **Car maker** - SKODA, AUDI and DAYMLER
 
 * The ANSA quality file is choosed based:
-   1 -  Default mesh length value - 5 and Material type (polymer/steel) - polymer 
-   (only for Skoda and Daimler and for setting above is predefined an ANSA quality file)
-   2 - The use can choose own User quality mesh file
-   3 - In case that user dont fill User quality mesh file and parameters from 1 are different then 
-   default - use the current F11 quality parameters
+   -  The use can choose own User quality mesh file
+   -  Default mesh length value: 5 and Material type (polymer/steel): polymer (only for Skoda and Daimler and for setting above is predefined an ANSA quality file)
+   -  In case that user dont fill User quality mesh file and parameters from above are different then default then will be uses the current F11 quality parameters
 * Basic check of elements is realized xxx.ansa_qual file
 * Special rules are applied for SKODA:
-   1 - User defined check element: min_lenght = THICKNESS FACTOR * thickness
-   2 - User defined check element for skew: TRIA = 60.0, QUAD = 48.0
+   -  User defined check element: min_lenght = THICKNESS FACTOR * thickness
+   -  User defined check element for skew: TRIA = 60.0, QUAD = 48.0
 * Special rules are applied for DAIMLER:
-   1 - check MIN HEI only for TETRA
+   - check MIN HEI only for TETRA
 * Possible compress list bigger then e.g. 100 lines
 
 '''
@@ -33,7 +31,7 @@ from ansa import base, constants, mesh
 
 # ==============================================================================
 
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
 #	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
@@ -63,9 +61,9 @@ def exe(entities, params):
     t0 = time.time()
     print('Start measure time....')
     
-    if params['Quality mesh file'] != '':
+    if params['User quality mesh file'] != '':
         user_define_qual = True
-        success = mesh.ReadQualityCriteria(params['Quality mesh file'])
+        success = mesh.ReadQualityCriteria(params['User quality mesh file'])
         if success == 1:
             print('User defined mesh quality file was loaded')
         else:

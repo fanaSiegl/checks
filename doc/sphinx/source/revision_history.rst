@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit efe7d7d (HEAD, tag: V.0.1.18, master)
+       * commit a5d8341 (HEAD, tag: V.0.1.19, master)
+   | Author: stekly <jan.stekly@idiada.cz>
+   | Date:   Mon Feb 24 08:42:59 2020 +0100
+   | 
+   |     fix quality univerzal file
+   |  
+   * commit efe7d7d (tag: V.0.1.18)
    | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
    | Date:   Mon Feb 17 17:22:49 2020 +0100
    | 
