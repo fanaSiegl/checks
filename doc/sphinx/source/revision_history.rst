@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit 783ff2e (HEAD, tag: V.0.1.17, master)
+       * commit efe7d7d (HEAD, tag: V.0.1.18, master)
+   | Author: Frantisek Siegl <frantisek.siegl@idiada.cz>
+   | Date:   Mon Feb 17 17:22:49 2020 +0100
+   | 
+   |     Debuging with one common function test implemented.
+   |  
+   * commit 783ff2e (tag: V.0.1.17)
    | Author: mirzov <ihor.mirzov@idiada.cz>
    | Date:   Thu Feb 13 16:27:39 2020 +0100
    | 
