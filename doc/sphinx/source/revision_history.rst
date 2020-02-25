@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit ec43115 (HEAD, tag: V.0.1.20, master)
+       * commit 99671f2 (HEAD, tag: V.0.1.21, master)
+   | Author: stekly <jan.stekly@idiada.cz>
+   | Date:   Tue Feb 25 17:33:56 2020 +0100
+   | 
+   |     fix return function
+   |  
+   * commit ec43115 (tag: V.0.1.20)
    | Author: stekly <jan.stekly@idiada.cz>
    | Date:   Mon Feb 24 08:53:12 2020 +0100
    | 

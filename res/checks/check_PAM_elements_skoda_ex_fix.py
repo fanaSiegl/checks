@@ -272,9 +272,7 @@ def exe(entities, params):
 	print('End of execution of the check: ')
 	print(t5 - t0)
 
-	for key, val in t.items():
-		CheckItem.reports.append(val)
-	return CheckItem.reports
+        return list(t.values())
 
 
 # ==============================================================================
