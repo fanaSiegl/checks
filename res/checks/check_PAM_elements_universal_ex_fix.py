@@ -34,8 +34,8 @@ from ansa import base, constants, mesh
 DEBUG = False
 
 if DEBUG:
-#	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
-    PATH_SELF = os.path.dirname(os.path.realpath(__file__))
+    PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
+    # PATH_SELF = os.path.dirname(os.path.realpath(__file__))
 else:
     PATH_SELF = os.path.join(os.environ['ANSA_TOOLS'], 'checks','general_check','default')
 
@@ -46,7 +46,7 @@ ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 class CheckItem(check_base_items.BaseEntityCheckItem):
     SOLVER_TYPE = constants.PAMCRASH
     ENTITY_TYPES = ['SHELL', 'MEMBRANE', 'SOLID']
-    CHECK_TYPE = ['SKODA', 'DAIMLER', 'AUDI', 'SEAT']
+#    CHECK_TYPE = ['SKODA', 'DAIMLER', 'AUDI', 'SEAT']
 
 # ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the exe procedure!')
@@ -59,7 +59,7 @@ def exe(entities, params):
     SKEW_QUAD=48.0
 
     t0 = time.time()
-    print('Start measure time....')
+#    print('Start measure time....')
     
     if params['User quality mesh file'] != '':
         user_define_qual = True
@@ -72,19 +72,17 @@ def exe(entities, params):
                  
     else:
         if type_check == 'DAIMLER' and params['Material type (polymer/steel)'] == 'polymer' and element_length == '5':
-            #success = mesh.ReadQualityCriteria('//mb-us2/fem/+software/NAVODKY/Navodky_DAIMLER/MeshParameters/O5mm.ansa_qual')
-            success = mesh.ReadQualityCriteria('/data/fem/+software/NAVODKY/Navodky_DAIMLER/MeshParameters/O5mm.ansa_qual')
+            success = mesh.ReadQualityCriteria(PATH_SELF + '/res/DAIMLER/O5mm.ansa_qual')
             if success == 1:
-                print('Mesh quality file was loaded - //mb-us2/fem/+software/NAVODKY/Navodky_DAIMLER/MeshParameters/O5mm.ansa_qual')
+                print('Mesh quality file was loaded - DAIMLER - O5mm.ansa_qual')
             else:
                 print('User defined mesh quality file was\'n loaded')
                 session.Quit()    
 
         if type_check == 'SKODA' and params['Material type (polymer/steel)'] == 'polymer' and element_length == '5':
-            success =  mesh.ReadQualityCriteria('/data/fem/+software/NAVODKY/Navodky_SKODA/batch_mesh_sessions_quality/plast_5mm/Plast_5mm.ansa_qual')  
-            #success =  mesh.ReadQualityCriteria('//mb-us2/fem/+software/NAVODKY/Navodky_SKODA/batch_mesh_sessions_quality/plast_5mm/Plast_5mm.ansa_qual') 
+            success =  mesh.ReadQualityCriteria(PATH_SELF + '/res/SKODA/Plast_5mm.ansa_qual')
             if success == 1:
-                print('Mesh quality file was loaded - /data/fem/+software/NAVODKY/Navodky_SKODA/batch_mesh_sessions_quality/plast_5mm/Plast_5mm.ansa_qual')
+                print('Mesh quality file was loaded - SKODA - Plast_5mm.ansa_qual')
             else:
                 print('User defined mesh quality file was\'n loaded')
                 session.Quit()             
@@ -150,7 +148,7 @@ def exe(entities, params):
         'MAXANGLE,SHELL,QUAD':{'criteria name F11':"max angle quads",'comparison':'<','type':'QUAD'},
         'MINANGLE,SHELL,TRIA':{'criteria name F11':"min angle trias",'comparison':'>','type':'TRIA'},
         'MAXANGLE,SHELL,TRIA':{'criteria name F11':"max angle trias",'comparison':'<','type':'TRIA'},
-        'TRIANGLES PER NODE,SHELL,QUAD,TRIA':{'criteria name F11':"triangles per node",'comparison':'<=','type':'QUAD,TRIA'},
+        'TRIANGLES PER NODE,SHELL,QUAD,TRIA':{'criteria name F11':"triangles per node",'comparison':'>=','type':'QUAD,TRIA'},
         'ASPECT,SOLID,TETRA,HEXA,PENTA':{'criteria name F11': 'aspect ratio', 'comparison':'<','type':'TETRA,HEXA,PENTA'},
         'SKEW,SOLID,TETRA,HEXA,PENTA':{'criteria name F11':"skewness",'comparison':'<','type':'TETRA,HEXA,PENTA'},
         'WARP,SOLID,TETRA,HEXA,PENTA':{'criteria name F11':"warping",'comparison':'<','type':'TETRA,HEXA,PENTA'},
@@ -222,6 +220,7 @@ def exe(entities, params):
     thickness_dict = dict()
     defined_material = dict()
     text_errors_mat = list()
+    thick = dict()
         
     for part in parts:
 
@@ -232,7 +231,7 @@ def exe(entities, params):
             thick = part.get_entity_values(solver, [thickness, c_thickness])
 
         if part.ansa_type(solver) == properties_types['LAMINATE'] or part.ansa_type(solver) == properties_types['COMPOSITE']:
-            thick [thickness] = 10000 
+            thick [thickness] = 10000
             
         if part.ansa_type(solver) == properties_types['MEMBRANE_SECTION']:
             thick = part.get_entity_values(solver, [thickness])
@@ -248,7 +247,7 @@ def exe(entities, params):
             part_type = part.ansa_type(solver)
             if part_type == 'LAMINATE':
                 material_key = material_key_comp
-            print('part', part)
+#            print('part', part)
             
             mat = part.get_entity_values(solver, [material_key])[material_key]
             defined = mat.get_entity_values(solver, ['DEFINED'])
@@ -401,12 +400,12 @@ def exe(entities, params):
     print('End of execution of the check: ')
     print(t5 - t0)
 
-    return t.values()
+    return list(t.values())
 
 # ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the fix procedure!')
 def fix(issues):
-    base.All()
+  pass
 
 # ============== this "checkDescription" is crucial for loading this check into ANSA! =========================
 
@@ -429,11 +428,11 @@ checkDescription.add_str_param('Default mesh length','5')
 # ==============================================================================
 
 if __name__ == '__main__' and DEBUG:
-    
+
     testParams = {
        'Car - SKODA/DAIMLER': 'DAIMLER',
        'Detail list for number of errors': '100',
-       'Quality mesh file': '',
+       'User quality mesh file': '',
        'Solver': 'ABAQUS',
        'Material type (polymer/steel)':'polymer',
        'Default mesh length':'5'}
