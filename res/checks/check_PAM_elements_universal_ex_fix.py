@@ -46,12 +46,17 @@ ansa.ImportCode(os.path.join(PATH_SELF, 'check_base_items.py'))
 class CheckItem(check_base_items.BaseEntityCheckItem):
     SOLVER_TYPE = constants.PAMCRASH
     ENTITY_TYPES = ['SHELL', 'MEMBRANE', 'SOLID']
-#    CHECK_TYPE = ['SKODA', 'DAIMLER', 'AUDI', 'SEAT']
 
 # ==============================================================================
 @check_base_items.safeExecute(CheckItem, 'An error occured during the exe procedure!')
 def exe(entities, params):
 
+    if base.CurrentDeck() != constants.PAMCRASH:
+        base.SetCurrentDeck(constants.PAMCRASH)
+        print("Switch form current deck to PAMCRASH")
+        print("Please run the check again !!!!")
+        return []
+    
     type_check = params['Car - SKODA/DAIMLER']
     element_length = params['Default mesh length']	
     THICKNESS_FACTOR=1.1
@@ -59,7 +64,7 @@ def exe(entities, params):
     SKEW_QUAD=48.0
 
     t0 = time.time()
-#    print('Start measure time....')
+    print('Start measure time....')
     
     if params['User quality mesh file'] != '':
         user_define_qual = True
@@ -132,7 +137,7 @@ def exe(entities, params):
         session.Quit()
     
     properties_types_list = [typ_property for _, typ_property in properties_types.items() ]
-        
+    
     print("SOLVER:", solver_name)
 
     # Basic criteria
@@ -269,6 +274,7 @@ def exe(entities, params):
     # Checking loops
     number_errors = {}
     text_errors = {}
+    #print(len(entities))
     for element in entities:
         
         element_type = element.ansa_type(solver)
