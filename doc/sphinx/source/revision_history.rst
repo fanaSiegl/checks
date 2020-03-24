@@ -4,7 +4,13 @@ Revision history
 
 Revision history graph::
     
-       * commit 61a39a7 (HEAD, tag: V.0.1.22, master)
+       * commit e43349e (HEAD, tag: V.0.1.23, master)
+   | Author: stekly <jan.stekly@idiada.cz>
+   | Date:   Tue Mar 10 14:49:06 2020 +0100
+   | 
+   |     force the PAMCRASH deck
+   |  
+   * commit 61a39a7 (tag: V.0.1.22)
    | Author: stekly <jan.stekly@idiada.cz>
    | Date:   Tue Feb 25 17:35:12 2020 +0100
    | 

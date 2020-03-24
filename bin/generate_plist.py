@@ -64,7 +64,7 @@ def saveGeneralDoc(documentedModules):
 
 '''
 
-	for documentedModule in documentedModules:
+	for documentedModule in sorted(documentedModules):
 		content += '    %s.rst\n' % documentedModule
 
 	fo = open(
