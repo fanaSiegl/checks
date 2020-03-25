@@ -19,7 +19,13 @@ PATH_DOC = os.path.normpath(os.path.join(PATH_BIN,'..', 'doc'))
 PATH_RES = os.path.normpath(os.path.join(PATH_BIN,'..', 'res'))
 PATH_ICONS = os.path.join(PATH_RES, 'icons')
 
+CONFIG_FILE = 'config.ini'
 VERSION_FILE = 'version.ini'
+
+CHECK_PATTERN = 'check_*.py'
+CHECKS_DOC_RST = 'checksDocString.rst'
+PLIST_GENERATOR_NAME = 'generate_plist.py'
+PLIST_NAME = 'ANSA_UserDefined.plist'
 
 #==============================================================================
 
@@ -56,5 +62,36 @@ def runSubprocess(command, cwd=None):
     return stdout, stderr
 
 #==============================================================================
-   
+
+def getPlistPath():
+     
+    config = configparser.ConfigParser()
+     
+    cfgFileName = os.path.join(PATH_INI, CONFIG_FILE)
+    config.read(cfgFileName)
+ 
+    return config.get('PATHS', 'PATH_PLIST')
     
+#==============================================================================
+
+def getPathChecks():
+     
+    config = configparser.ConfigParser()
+     
+    cfgFileName = os.path.join(PATH_INI, CONFIG_FILE)
+    config.read(cfgFileName)
+ 
+    return config.get('PATHS', 'PATH_CHECKS')
+
+#==============================================================================
+
+def getPathAnsaExecutable():
+     
+    config = configparser.ConfigParser()
+     
+    cfgFileName = os.path.join(PATH_INI, CONFIG_FILE)
+    config.read(cfgFileName)
+ 
+    return config.get('PATHS', 'ANSA_EXECUTABLE')
+
+#==============================================================================

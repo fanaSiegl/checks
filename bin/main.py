@@ -29,12 +29,7 @@ import sys
 import argparse
 import shutil
 
-from domain import utils
-
-#==============================================================================
-
-PLIST_GENERATOR_NAME = 'generate_plist.py'
-ANSA_EXECUTABLE = '/usr1/applications/ansa/BETA_CAE_Systems/ansa_v19.1.1/ansa64.sh'
+from domain import util
 
 #==============================================================================
 
@@ -45,10 +40,10 @@ class AnsaChecksPlistUpdater(object):
     def createPlist():
 
         # create plist for available checks and the documentation string
-        command = '%s -nogui -execscript %s' % (ANSA_EXECUTABLE,
-            os.path.join(utils.PATH_BIN, PLIST_GENERATOR_NAME))
+        command = '%s -nogui -execscript %s' % (util.getPathAnsaExecutable(),
+            os.path.join(util.PATH_BIN, util.PLIST_GENERATOR_NAME))
 
-        stdout, stderr = utils.runSubprocess(command, cwd=utils.PATH_BIN)
+        stdout, stderr = util.runSubprocess(command, cwd=util.PATH_BIN)
 
         for line in stdout.splitlines():
             print(line)
@@ -59,9 +54,9 @@ class AnsaChecksPlistUpdater(object):
 
         ''' Copies all checks from RES to installation target directory.'''
 
-        for checkFileName in os.listdir(os.path.join(utils.PATH_RES, 'checks')):
+        for checkFileName in os.listdir(os.path.join(util.PATH_RES, 'checks')):
             if checkFileName.startswith('check_'):
-                src = os.path.join(utils.PATH_RES, 'checks', checkFileName)
+                src = os.path.join(util.PATH_RES, 'checks', checkFileName)
                 dst = os.path.join(path, checkFileName)
 
                 # replace existing
