@@ -55,8 +55,21 @@ class AnsaChecksPlistUpdater(object):
         ''' Copies all checks from RES to installation target directory.'''
 
         for checkFileName in os.listdir(os.path.join(util.PATH_RES, 'checks')):
-            if checkFileName.startswith('check_'):
-                src = os.path.join(util.PATH_RES, 'checks', checkFileName)
+            src = os.path.join(util.PATH_RES, 'checks', checkFileName)
+            
+            if checkFileName.startswith('_'):
+                continue
+            elif os.path.isdir(src):
+                dst = os.path.join(path, checkFileName)
+
+                # replace existing
+                if os.path.isfile(dst):
+                    os.remove(dst)
+
+                print('Copying: %s' % checkFileName)
+                shutil.copytree(src, dst)
+                
+            elif checkFileName.startswith('check_'):
                 dst = os.path.join(path, checkFileName)
 
                 # replace existing
