@@ -85,10 +85,10 @@ def main():
 
     parser = argparse.ArgumentParser(description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
-#     parser.add_argument('srcPath', nargs='?', metavar='source check path',
-#         help='Destination path where to create *.plist if different from default.',)
     parser.add_argument('-copy', nargs=1, dest='destPath',
         help='Destination path where to copy all checks.')
+    parser.add_argument('-init', action='store_true',
+        help='Copy all checks to default directory and create plist.')
 
     args = parser.parse_args()
 
@@ -99,14 +99,9 @@ def main():
         else:
             print('Given path does not exist!')
             sys.exit(1)
+    elif args.init:
+        AnsaChecksPlistUpdater.copyChecks(util.getPathChecks())
 
-    # create plist from current check_*.py files in /default/ path
-#     if args.srcPath:
-#         if os.path.isdir(args.srcPath):
-#             AnsaChecksPlistUpdater.createPlist(args.srcPath)
-#         else:
-#             print('Given source path does not exist!')
-#     else:
     AnsaChecksPlistUpdater.createPlist()
 
 #==============================================================================
