@@ -41,6 +41,10 @@ class CheckItem(check_base_items.BaseEntityCheckItem):
 
 # ==============================================================================
 
+class CheckedGapException(Exception): pass
+
+# ==============================================================================
+
 class CheckedGap:
 
 	def __init__(self, parentGapEntity, checkReportTable):
@@ -54,7 +58,11 @@ class CheckedGap:
 		self.attributes =  self.getEntityAttributes(self.gapEntity, 'GAP')
 		self.property = base.GetEntity(constants.ABAQUS, 'GAP_PROP', self.attributes['PID'])
 		self.propAttributes = self.getEntityAttributes(self.property, 'GAP_PROP')
-
+		
+		if self.propAttributes['C1'] is None or self.propAttributes['C2'] is None or self.propAttributes['C3'] is None:
+#			self.checkReportTable.add_issue(entities=[self.gapEntity], status="warning" , description='Contact direction missing!')
+			raise CheckedGapException('Contact direction missing!')
+		
 		pos_A = self.getNodePosition(self.attributes['GA'])
 		pos_B = self.getNodePosition(self.attributes['GB'])
 
@@ -110,8 +118,11 @@ def exe(entities, params):
 			entities = [entities]
 		else:
 			for entity in entities:
-				checkedGap = CheckedGap(entity, checkReportTable)
-				checkedGap.check()
+				try:
+					checkedGap = CheckedGap(entity, checkReportTable)
+					checkedGap.check()
+				except CheckedGapException as e:
+					continue
 
 	return [checkReportTable]
 

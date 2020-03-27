@@ -22,7 +22,7 @@ from ansa import base, constants, calc
 
 # ==============================================================================
 
-DEBUG = False
+DEBUG = 0
 
 if DEBUG:
 	PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
@@ -47,7 +47,8 @@ class entity_cls(base.Entity):
 
 	#-------------------------------------------------------------------------
 	
-	def check(self,params):
+	def check(self, params):
+		
 		fieldConnector = ['G1','G2']
 		dict_node = self.get_entity_values(constants.ABAQUS, fieldConnector)
 		pos_A = dict_node['G1'].position
@@ -71,6 +72,11 @@ class entity_cls(base.Entity):
 			status_lenght = status_lenght + ' .Initial lenght for local coord z of connector for should be 1.0, the current lenght is: ' + str(dist_z)
 
 		connectorBehavior = base.CollectEntities(constants.ABAQUS, self, "CONNECTOR BEHAVIOR",mat_from_entities = True)
+		
+		if len(connectorBehavior) == 0:
+			# no connector behavior defined...
+			return '', ''
+		
 		field_stop = ['*STOP', 'STP>data']
 		dict_stop = connectorBehavior[0].get_entity_values(constants.ABAQUS, field_stop)
 		field_stop_lim = ['Low.Lim.(1)','Up.Lim.(1)','Low.Lim.(2)','Up.Lim.(2)','Low.Lim.(3)','Up.Lim.(3)']

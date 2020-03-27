@@ -31,7 +31,7 @@ from ansa import base, constants, mesh
 
 # ==============================================================================
 
-DEBUG = False
+DEBUG = 0
 
 if DEBUG:
     PATH_SELF = '/data/fem/+software/SKRIPTY/tools/python/ansaTools/checks/general_check/default'
@@ -77,7 +77,7 @@ def exe(entities, params):
                  
     else:
         if type_check == 'DAIMLER' and params['Material type (polymer/steel)'] == 'polymer' and element_length == '5':
-            success = mesh.ReadQualityCriteria(PATH_SELF + '/res/DAIMLER/O5mm.ansa_qual')
+            success = mesh.ReadQualityCriteria(os.path.join(PATH_SELF, 'res', 'DAIMLER', 'O5mm.ansa_qual'))
             if success == 1:
                 print('Mesh quality file was loaded - DAIMLER - O5mm.ansa_qual')
             else:
@@ -85,7 +85,7 @@ def exe(entities, params):
                 session.Quit()    
 
         if type_check == 'SKODA' and params['Material type (polymer/steel)'] == 'polymer' and element_length == '5':
-            success =  mesh.ReadQualityCriteria(PATH_SELF + '/res/SKODA/Plast_5mm.ansa_qual')
+            success =  mesh.ReadQualityCriteria(os.path.join(PATH_SELF, 'res', 'SKODA', 'Plast_5mm.ansa_qual'))
             if success == 1:
                 print('Mesh quality file was loaded - SKODA - Plast_5mm.ansa_qual')
             else:
